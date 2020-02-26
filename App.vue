@@ -17,4 +17,7 @@
 	@import "./graceUI/graceUI.css";
 	@import "./graceUI/graceIcons.css";
 	/* #endif */
+	* {
+	  font-family: Helvetica, Arial, "microsoft yahei", "PingFang";
+	}
 </style>

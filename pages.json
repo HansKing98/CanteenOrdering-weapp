@@ -3,14 +3,28 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "食堂点餐系统"
+			}
+		}, {
+			"path": "pages/login/login",
+			"style": {}
+		}, {
+			"path": "pages/analysis/analysis",
+			"style": {
+				"navigationBarTitleText": "新一食堂"
+			}
+		}, {
+			"path": "pages/analysis/analysis2",
+			"style": {
+				"navigationBarTitleText": "新一食堂"
 			}
 		}
+
 	],
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
+		"navigationBarTextStyle": "light",
+		"navigationBarTitleText": "食堂点餐系统",
+		"navigationBarBackgroundColor": "#3688FF",
 		"backgroundColor": "#F8F8F8"
 	}
 }

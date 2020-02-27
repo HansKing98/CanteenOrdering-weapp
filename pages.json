@@ -11,15 +11,34 @@
 		}, {
 			"path": "pages/analysis/analysis",
 			"style": {
-				"navigationBarTitleText": "新一食堂"
+				"navigationBarTitleText": "食堂分析"
 			}
 		}, {
 			"path": "pages/analysis/analysis2",
 			"style": {
-				"navigationBarTitleText": "新一食堂"
+				"navigationBarTitleText": "食堂分析"
+			}
+		}, {
+			"path": "pages/analysis/index",
+			"style": {
+				"navigationBarTitleText": "食堂分析"
+			}
+		}, {
+			"path": "pages/customer/customer",
+			"style": {
+				"navigationBarTitleText": "用户中心"
+			}
+		}, {
+			"path": "pages/customer/customer2",
+			"style": {
+				"navigationBarTitleText": "用户中心"
+			}
+		}, {
+			"path": "pages/customer/customer3",
+			"style": {
+				"navigationBarTitleText": "用户中心"
 			}
 		}
-
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "light",

@@ -1,20 +1,14 @@
 <template>
 	<view class="qiun-columns">
-			<view class="grace-form-item grace-border-b">
-				<text class="grace-form-label grace-blue grace-h3">选择食堂</text>
-				<view class="grace-form-body">
-					<picker class="grace-form-picker" name="gender">
-						<text class="grace-text grace-gray">学六食堂</text>
-						<text class="grace-icons icon-arrow-down" style="margin-left:5px;"></text>
-					</picker>
-				</view>
-			</view>
+		<view class="qiun-bg-white qiun-title-bar qiun-common-mt grace-blue" >
+			今日营养摄入
+		</view>
 		<view class="qiun-charts" >
 			<!--#ifdef MP-ALIPAY -->
-			<canvas canvas-id="canvasLineA" id="canvasLineA" class="charts" :width="cWidth*pixelRatio" :height="cHeight*pixelRatio" :style="{'width':cWidth+'px','height':cHeight+'px'}" @touchstart="touchLineA"></canvas>
+			<canvas canvas-id="canvasRose" id="canvasRose" class="charts" :style="{'width':cWidth*pixelRatio+'px','height':cHeight*pixelRatio+'px', 'transform': 'scale('+(1/pixelRatio)+')','margin-left':-cWidth*(pixelRatio-1)/2+'px','margin-top':-cHeight*(pixelRatio-1)/2+'px'}" @touchstart="touchRose"></canvas>
 			<!--#endif-->
 			<!--#ifndef MP-ALIPAY -->
-			<canvas canvas-id="canvasLineA" id="canvasLineA" class="charts" @touchstart="touchLineA"></canvas>
+			<canvas canvas-id="canvasRose" id="canvasRose" class="charts" @touchstart="touchRose"></canvas>
 			<!--#endif-->
 		</view>
 	</view>
@@ -25,7 +19,9 @@
 	import  { isJSON } from '@/common/checker.js';
 	import  TESTdata from '@/common/data.json';
 	var _self;
-	var canvaLineA=null;
+	var canvaPie=null;
+	var canvaRose=null;
+	
 	export default {
 		data() {
 			return {
@@ -60,74 +56,102 @@
 				// 	},
 				// 	success: function(res) {
 				// 		console.log(res.data.data)
-						let LineA={categories:[],series:[]};
+						let Pie={series:[]};
 						//这里我后台返回的是数组，所以用等于，如果您后台返回的是单条数据，需要push进去
-						LineA.categories=TESTdata.data.LineB.categories;
-						LineA.series=TESTdata.data.LineB.series;
-						_self.textarea = JSON.stringify(TESTdata.data.LineA);
-						_self.showLineA("canvasLineA",LineA);
+						Pie.series=TESTdata.data.Pie.series;
+						_self.textarea = JSON.stringify(TESTdata.data.Pie);
+						_self.showPie("canvasPie",Pie);
+						_self.showRose("canvasRose",Pie);
 				// 	},
 				// 	fail: () => {
 				// 		_self.tips="网络错误，小程序端请检查合法域名";
 				// 	},
 				// });
 			},
-			showLineA(canvasId,chartData){
-				canvaLineA=new uCharts({
+			showPie(canvasId,chartData){
+				canvaPie=new uCharts({
 					$this:_self,
 					canvasId: canvasId,
-					type: 'line',
+					type: 'rose',
 					fontSize:11,
-					padding:[15,20,0,15],
+					padding:[15,15,0,15],
 					legend:{
 						show:true,
 						padding:5,
 						lineHeight:11,
 						margin:0,
 					},
-					dataLabel:true,
-					dataPointShape:true,
 					background:'#FFFFFF',
 					pixelRatio:_self.pixelRatio,
-					categories: chartData.categories,
 					series: chartData.series,
 					animation: true,
-					xAxis: {
-						type:'grid',
-						gridColor:'#CCCCCC',
-						gridType:'dash',
-						dashLength:8,
-            boundaryGap:'justify'
-					},
-					yAxis: {
-						gridType:'dash',
-						gridColor:'#CCCCCC',
-						dashLength:8,
-						splitNumber:5,
-						format:(val)=>{return val.toFixed(0)+'元'}
-					},
-					width: _self.cWidth*_self.pixelRatio*0.9,
+					width: _self.cWidth*_self.pixelRatio,
 					height: _self.cHeight*_self.pixelRatio,
+					dataLabel: true,
 					extra: {
-						line:{
-							type: 'curve'
+						rose: {
+							type:'area',
+							minRadius:50,
+							activeOpacity:0.5,
+							offsetAngle:0,
+							labelWidth:15
 						}
+					},
+				});
+			},
+			touchPie(e){
+				canvaPie.showToolTip(e, {
+					format: function (item) {
+						return item.name + ':' + item.data 
 					}
 				});
-				
 			},
-			touchLineA(e) {
-				canvaLineA.touchLegend(e);
-				canvaLineA.showToolTip(e, {
-					format: function (item, category) {
-						return category + ' ' + item.name + ':' + item.data 
+			showRose(canvasId,chartData){
+				canvaRose=new uCharts({
+					$this:_self,
+					canvasId: canvasId,
+					type: 'rose',
+					fontSize:11,
+					padding:[15,15,0,15],
+					legend:{
+						show:true,
+						padding:5,
+						lineHeight:11,
+						margin:0,
+					},
+					background:'#FFFFFF',
+					pixelRatio:_self.pixelRatio,
+					series: chartData.series,
+					animation: true,
+					width: _self.cWidth*_self.pixelRatio,
+					height: _self.cHeight*_self.pixelRatio,
+					dataLabel: true,
+					extra: {
+						rose: {
+							type:'radius',
+							minRadius:50,
+							activeOpacity:0.5,
+							offsetAngle:0,
+							labelWidth:15
+						}
+					},
+				});
+			},
+			touchRose(e){
+				canvaRose.showToolTip(e, {
+					format: function (item) {
+						return item.name + ':' + item.data 
 					}
 				});
 			},
 			changeData(){
 				if(isJSON(_self.textarea)){
 					let newdata=JSON.parse(_self.textarea);
-					canvaLineA.updateData({
+					canvaPie.updateData({
+						series: newdata.series,
+						categories: newdata.categories
+					});
+					canvaRose.updateData({
 						series: newdata.series,
 						categories: newdata.categories
 					});

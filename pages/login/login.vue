@@ -3,7 +3,7 @@
 		<!-- 页面主体 -->
 		<view slot="gBody" class="grace-body">
 			<view class="marginTop">
-				<text class="	grace-blue" style="font-size: 20px;">食堂点餐系统-weapp</text>
+				<text class="	grace-blue" style="font-size: 20px;">智点点-现代化餐饮助手</text>
 			</view>
 			<form @submit="loginNow" class="grace-form" style="margin-top:80rpx;">
 				<view class="grace-form-item">
@@ -15,7 +15,7 @@
 				<view class="grace-form-item">
 					<text class="grace-form-label">密码</text>
 					<view class="grace-form-body">
-						<input type="number" class="grace-form-input" name="yzm" placeholder="请输入验证码" />
+						<input type="number" class="grace-form-input" name="yzm" placeholder="请输入密码" />
 					</view>
 				</view>
 				<view class="grace-margin-top">
@@ -26,6 +26,9 @@
 			</form>
 			<view class="grace-text grace-black9 grace-margin-top" style="text-align:right;" @tap="navTo('/pages/login/register')">
 				还没有账号？点击注册
+			</view>
+			<view class="logo">
+				<image src="../../static/logo_n.png" mode="aspectFill"></image>
 			</view>
 			<!-- 第三方登录 -->
 			<view style="position:fixed; left:25rpx; bottom:100rpx; width:700rpx;">
@@ -252,5 +255,18 @@
 	.grace-line-title>.title {
 		padding: 0 80rpx;
 		line-height: 80rpx;
+	}
+	.logo{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		/* background-color: #007AFF; */
+		width: 100%;
+		height: 600rpx;
+	}
+	.logo image{
+		width: 400rpx;
+		height: 400rpx;
+		border-radius: 200rpx;
 	}
 </style>

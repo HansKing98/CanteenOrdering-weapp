@@ -1,49 +1,65 @@
 <template>
-	<view class="grace-body">
-		<view class="grace-margin-top">
-			<text class="grace-title">常用文本样式</text>
+	<gracePage :customHeader="false">
+		<view class="grace-body" slot="gBody">
+			<view class="grace-title grace-margin-top">功能入口</view>
+			<view class="demo">
+				<view>
+					<button type="primary" class="grace-button" @click="navigateTo('/pages/login/login')">登录页</button>
+				</view>
+				<view>
+					<button type="warn" class="grace-button" @click="navigateTo('/pages/customer/customer')">营养分析</button>
+					<!-- <button type="warn" class="grace-button" @click="navigateTo('/pages/customer/customer2')">customer2</button> -->
+					<!-- <button type="warn" class="grace-button" @click="navigateTo('/pages/customer/customer3')">customer3</button> -->
+				</view>
+			</view>
+			<view class="demo">
+				<view>
+<!-- 					<button type="primary" class="grace-button" plain="true" @click="navigateTo('/pages/analysis/analysis')">analysis</button>
+					<button type="primary" class="grace-button" plain="true" @click="navigateTo('/pages/analysis/analysis2')">analysis2</button> -->
+					<button type="primary" class="grace-button" plain="true" @click="navigateTo('/pages/analysis/index')">食堂情况分析</button>
+				</view>
+			</view>
+			<view class="grace-title grace-margin-top" >其他入口</view>
+			<view class="demo">
+				<view>
+					<button @click="navigateTo('/pages/screen/screen1')" type="primary" class="grace-button grace-gtbg-green">screen1</button>
+				</view>
+				<view>
+					<button @click="navigateTo('/pages/screen/screen2')" type="primary" class="grace-button  grace-gtbg-blue">screen2</button>
+				</view>
+			</view>
+			<view style="height:50px;"></view>
 		</view>
-		<view class="grace-nowrap demo">
-			<text class="grace-blue grace-h1">H1</text>
-			<text class="grace-light-blue grace-h2">H2</text>
-			<text class="grace-gray grace-h3">H3</text>
-			<text class="grace-blue-sky grace-h4">H4</text>
-		</view>
-		<view class="grace-nowrap demo">
-			<text class="grace-red grace-h5">H5</text>
-			<text class="grace-green grace-h6">H6</text>
-			<text class="grace-yellow">普通</text>
-			<text class="grace-bold">加粗</text>
-		</view>
-		<view class="grace-nowrap demo">
-			<text class="grace-blue grace-text-small">小字体</text>
-			<text class="grace-red grace-line-through">删除</text>
-			<text class="grace-gray grace-italic">倾斜</text>
-			<text class="grace-yellow grace-indent">缩进</text>
-		</view>
-		<view class="grace-margin-top">
-			<text class="grace-title">溢出省略</text>
-		</view>
-		<view class="grace-nowrap">
-			<text class="grace-ellipsis" style="width:200rpx;">长文本溢出长文本溢出长文本溢出</text>
-		</view>
-		<view class="grace-margin-top">
-			<text class="grace-title">文本段落</text>
-		</view>
-		<view>
-			<text  class="grace-text">GraceUI 是一套兼容微信小程序及uni-app的优秀前端框架，以flex布局为基础，提供了丰富的组件及界面库。大幅度提高开发速度 ^_^</text>
-		</view>
-		<view class="grace-margin-top">
-			<text class="grace-title">描述文本</text>
-		</view>
-		<view>
-			<text class="grace-desc grace-black9">GraceUI 来自于近3年的及上百个小程序、APP项目经验，我们是一线开发者，更懂开发！我们打造简洁、轻快的框架！</text>
-		</view>
-	</view>
+	</gracePage>
 </template>
 <script>
+	import gracePage from "../../graceUI/components/gracePage.vue";
+	export default {
+		data() {
+			return {}
+		},
+		methods: {
+			navigateTo(url) {
+				uni.navigateTo({
+					url: url
+				});
+			}
+		},
+		components: {
+			gracePage
+		}
+	}
 </script>
 <style>
-.demo{text-align:center;}
-.demo > text{width:25%; line-height:100upx;}
-</style>复制代码
+	.demo {
+		display: flex;
+		flex-wrap: nowrap;
+		border-left: 1px solid #F8F8F8;
+	}
+
+	.demo view {
+		width: 100%;
+		text-align: center;
+		margin: 10rpx;
+	}
+</style>

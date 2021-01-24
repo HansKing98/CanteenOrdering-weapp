@@ -1,27 +1,43 @@
 <template>
 	<view class="qiun-columns">
-		<view class="qiun-bg-white qiun-title-bar qiun-common-mt grace-blue" >
-			今日营养摄入
+		<!--#ifdef H5 -->
+		<view class="qiun-bg-white qiun-title-bar qiun-common-mt" >
+			<view class="qiun-title-dot-light">页面地址</view>
+		</view>
+		<view class="qiun-bg-white qiun-padding">
+		    <text>pages/basic/line/curve</text>
+		</view>
+		<!--#endif-->
+		<view class="qiun-bg-white qiun-title-bar qiun-common-mt" >
+			<view class="qiun-title-dot-light">基本曲线图</view>
 		</view>
 		<view class="qiun-charts" >
 			<!--#ifdef MP-ALIPAY -->
-			<canvas canvas-id="canvasRose" id="canvasRose" class="charts" :style="{'width':cWidth*pixelRatio+'px','height':cHeight*pixelRatio+'px', 'transform': 'scale('+(1/pixelRatio)+')','margin-left':-cWidth*(pixelRatio-1)/2+'px','margin-top':-cHeight*(pixelRatio-1)/2+'px'}" @touchstart="touchRose"></canvas>
+			<canvas canvas-id="canvasLineA" id="canvasLineA" class="charts" :width="cWidth*pixelRatio" :height="cHeight*pixelRatio" :style="{'width':cWidth+'px','height':cHeight+'px'}" @touchstart="touchLineA"></canvas>
 			<!--#endif-->
 			<!--#ifndef MP-ALIPAY -->
-			<canvas canvas-id="canvasRose" id="canvasRose" class="charts" @touchstart="touchRose"></canvas>
+			<canvas canvas-id="canvasLineA" id="canvasLineA" class="charts" @touchstart="touchLineA"></canvas>
 			<!--#endif-->
 		</view>
+		<!--#ifdef H5 -->
+		<view class="qiun-bg-white qiun-title-bar qiun-common-mt" >
+			<view class="qiun-title-dot-light">标准数据格式</view>
+		</view>
+		<view class="qiun-bg-white qiun-padding">
+		    <textarea class="qiun-textarea" auto-height="true" maxlength="-1" v-model="textarea"/>
+		</view>
+		<view class="qiun-text-tips">Tips：修改后点击更新图表</view>
+		<button class="qiun-button" @tap="changeData()">更新图表</button>
+		<!--#endif-->
 	</view>
 </template>
 
 <script>
 	import uCharts from '@/components/u-charts/u-charts.js';
 	import  { isJSON } from '@/common/checker.js';
-	import  TESTdata from '@/common/data.json';
-	var _self;
-	var canvaPie=null;
-	var canvaRose=null;
 	
+	var _self;
+	var canvaLineA=null;
 	export default {
 		data() {
 			return {
@@ -31,7 +47,7 @@
 				textarea:''
 			}
 		},
-		onLoad() {
+		mounted() {
 			_self = this;
 			//#ifdef MP-ALIPAY
 			uni.getSystemInfo({
@@ -50,108 +66,91 @@
 		},
 		methods: {
 			getServerData(){
-				// uni.request({
-				// 	url: 'https://www.ucharts.cn/data.json',
-				// 	data:{
-				// 	},
-				// 	success: function(res) {
-				// 		console.log(res.data.data)
-						let Pie={series:[]};
+				uni.request({
+					url: 'https://www.ucharts.cn/data.json',
+					data:{
+					},
+					success: function(res) {
+						console.log(res.data.data)
+						let LineA={categories:[],series:[]};
 						//这里我后台返回的是数组，所以用等于，如果您后台返回的是单条数据，需要push进去
-						Pie.series=TESTdata.data.Pie.series;
-						_self.textarea = JSON.stringify(TESTdata.data.Pie);
-						_self.showPie("canvasPie",Pie);
-						_self.showRose("canvasRose",Pie);
-				// 	},
-				// 	fail: () => {
-				// 		_self.tips="网络错误，小程序端请检查合法域名";
-				// 	},
-				// });
+						LineA.categories=res.data.data.LineA.categories;
+						LineA.series=res.data.data.LineA.series;
+						_self.textarea = JSON.stringify(res.data.data.LineA);
+						_self.showLineA("canvasLineA",LineA);
+					},
+					fail: () => {
+						_self.tips="网络错误，小程序端请检查合法域名";
+					},
+				});
 			},
-			showPie(canvasId,chartData){
-				canvaPie=new uCharts({
+			showLineA(canvasId,chartData){
+				canvaLineA=new uCharts({
 					$this:_self,
 					canvasId: canvasId,
-					type: 'rose',
+					type: 'line',
 					fontSize:11,
-					padding:[15,15,0,15],
+					padding:[15,20,0,15],
 					legend:{
 						show:true,
 						padding:5,
 						lineHeight:11,
 						margin:0,
 					},
+					dataLabel:true,
+					dataPointShape:true,
 					background:'#FFFFFF',
 					pixelRatio:_self.pixelRatio,
+					categories: chartData.categories,
 					series: chartData.series,
 					animation: true,
+					xAxis: {
+						type:'grid',
+						gridColor:'#CCCCCC',
+						gridType:'dash',
+						dashLength:8,
+            boundaryGap:'justify'
+					},
+					yAxis: {
+						gridType:'dash',
+						gridColor:'#CCCCCC',
+						dashLength:8,
+						splitNumber:5,
+						format:(val)=>{return val.toFixed(0)+'元'}
+					},
 					width: _self.cWidth*_self.pixelRatio,
 					height: _self.cHeight*_self.pixelRatio,
-					dataLabel: true,
 					extra: {
-						rose: {
-							type:'area',
-							minRadius:50,
-							activeOpacity:0.5,
-							offsetAngle:0,
-							labelWidth:15
+						line:{
+							type: 'curve'
 						}
-					},
-				});
-			},
-			touchPie(e){
-				canvaPie.showToolTip(e, {
-					format: function (item) {
-						return item.name + ':' + item.data 
 					}
 				});
+				//下面是默认选中索引
+				let cindex=3;
+				//下面是自定义文案
+				let textList=[{text:'我是一个标题',color:null},{text:'自定义1：值1',color:'#2fc25b'},{text:'自定义2：值2',color:'#facc14'},{text:'自定义3：值3',color:'#f04864'}];
+				//下面是event的模拟,tooltip的Y坐标值通过这个mp.changedTouches[0].y控制
+				let tmpevent={mp:{changedTouches:[{x: 0, y: 80}]}};
+				setTimeout(()=>{
+					canvaLineA.showToolTip( tmpevent , {
+						index:cindex,
+						textList:textList
+					});
+				},200)
 			},
-			showRose(canvasId,chartData){
-				canvaRose=new uCharts({
-					$this:_self,
-					canvasId: canvasId,
-					type: 'rose',
-					fontSize:11,
-					padding:[15,15,0,15],
-					legend:{
-						show:true,
-						padding:5,
-						lineHeight:11,
-						margin:0,
-					},
-					background:'#FFFFFF',
-					pixelRatio:_self.pixelRatio,
-					series: chartData.series,
-					animation: true,
-					width: _self.cWidth*_self.pixelRatio,
-					height: _self.cHeight*_self.pixelRatio,
-					dataLabel: true,
-					extra: {
-						rose: {
-							type:'radius',
-							minRadius:50,
-							activeOpacity:0.5,
-							offsetAngle:0,
-							labelWidth:15
-						}
-					},
-				});
-			},
-			touchRose(e){
-				canvaRose.showToolTip(e, {
-					format: function (item) {
-						return item.name + ':' + item.data 
+			touchLineA(e) {
+				canvaLineA.touchLegend(e);
+				canvaLineA.showToolTip(e, {
+					format: function (item, category) {
+						return category + ' ' + item.name + ':' + item.data 
 					}
 				});
 			},
 			changeData(){
 				if(isJSON(_self.textarea)){
 					let newdata=JSON.parse(_self.textarea);
-					canvaPie.updateData({
-						series: newdata.series,
-						categories: newdata.categories
-					});
-					canvaRose.updateData({
+					canvaLineA.updateData({
 						series: newdata.series,
 						categories: newdata.categories
 					});

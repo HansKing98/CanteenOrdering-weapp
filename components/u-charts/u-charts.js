@@ -1,5 +1,5 @@
 /*
- * uCharts v1.9.3.20190922
+ * uCharts v1.9.5.20201214
  * uni-app平台高性能跨全端图表，支持H5、APP、小程序（微信/支付宝/百度/头条/QQ/360）
  * Copyright (c) 2019 QIUN秋云 https://www.ucharts.cn All rights reserved.
  * Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
@@ -228,13 +228,18 @@ function createCurveControlPoints(points, i) {
 
   function isNotMiddlePoint(points, i) {
     if (points[i - 1] && points[i + 1]) {
-      return points[i].y >= Math.max(points[i - 1].y, points[i + 1].y) || points[i].y <= Math.min(points[i - 1].y,
-        points[
-          i + 1].y);
+      return points[i].y >= Math.max(points[i - 1].y, points[i + 1].y) || points[i].y <= Math.min(points[i - 1].y,points[i + 1].y);
     } else {
       return false;
     }
   }
+	function isNotMiddlePointX(points, i) {
+	  if (points[i - 1] && points[i + 1]) {
+	    return points[i].x >= Math.max(points[i - 1].x, points[i + 1].x) || points[i].x <= Math.min(points[i - 1].x,points[i + 1].x);
+	  } else {
+	    return false;
+	  }
+	}
   var a = 0.2;
   var b = 0.2;
   var pAx = null;
@@ -263,11 +268,23 @@ function createCurveControlPoints(points, i) {
   if (isNotMiddlePoint(points, i)) {
     pAy = points[i].y;
   }
+	if (isNotMiddlePointX(points, i + 1)) {
+	  pBx = points[i + 1].x;
+	}
+	if (isNotMiddlePointX(points, i)) {
+	  pAx = points[i].x;
+	}
 	if (pAy >= Math.max(points[i].y, points[i + 1].y) || pAy <= Math.min(points[i].y, points[i + 1].y)) {
 	pAy = points[i].y;
 	}
 	if (pBy >= Math.max(points[i].y, points[i + 1].y) || pBy <= Math.min(points[i].y, points[i + 1].y)) {
 	pBy = points[i + 1].y;
+	}
+	if (pAx >= Math.max(points[i].x, points[i + 1].x) || pAx <= Math.min(points[i].x, points[i + 1].x)) {
+	pAx = points[i].x;
+	}
+	if (pBx >= Math.max(points[i].x, points[i + 1].x) || pBx <= Math.min(points[i].x, points[i + 1].x)) {
+	pBx = points[i + 1].x;
 	}
   return {
     ctrA: {
@@ -437,12 +454,10 @@ function getTouches(touches, opts, e) {
   if (touches.clientX) {
     if (opts.rotate) {
       y = opts.height - touches.clientX * opts.pixelRatio;
-      x = (touches.pageY - e.currentTarget.offsetTop - (opts.height / opts.pixelRatio / 2) * (opts.pixelRatio - 1)) *
-        opts.pixelRatio;
+      x = (touches.pageY - e.currentTarget.offsetTop - (opts.height / opts.pixelRatio / 2) * (opts.pixelRatio - 1)) * opts.pixelRatio;
     } else {
       x = touches.clientX * opts.pixelRatio;
-      y = (touches.pageY - e.currentTarget.offsetTop - (opts.height / opts.pixelRatio / 2) * (opts.pixelRatio - 1)) *
-        opts.pixelRatio;
+      y = (touches.pageY - e.currentTarget.offsetTop - (opts.height / opts.pixelRatio / 2) * (opts.pixelRatio - 1)) * opts.pixelRatio;
     }
   } else {
     if (opts.rotate) {
@@ -586,8 +601,12 @@ function getCandleToolTipData(series, seriesData, calPoints, index, categories, 
   };
   textList.push(text0);
   seriesData.map(function(item) {
-    if (index == 0 && item.data[1] - item.data[0] < 0) {
-      color[1] = downColor;
+    if (index == 0) {
+      if(item.data[1] - item.data[0] < 0){
+      	color[1] = downColor;
+      }else{
+      	color[1] = upColor;
+      }
     } else {
       if (item.data[0] < series[index - 1][1]) {
         color[0] = downColor;
@@ -651,24 +670,26 @@ function filterSeries(series) {
 function findCurrentIndex(currentPoints, calPoints, opts, config) {
   var offset = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 0;
   var currentIndex = -1;
-  var spacing = 0;
+  var spacing = opts.chartData.eachSpacing/2;
 	let xAxisPoints=[];
-	for(let i=0;i<calPoints[0].length;i++){
-		xAxisPoints.push(calPoints[0][i].x)
+	if(calPoints.length>0){
+		for(let i=1;i<opts.chartData.xAxisPoints.length;i++){
+				xAxisPoints.push(opts.chartData.xAxisPoints[i]-spacing)
+		}
+		if((opts.type=='line' || opts.type=='area') && opts.xAxis.boundaryGap=='justify'){
+		  spacing = opts.chartData.eachSpacing/2;
+		}
+		if(!opts.categories){
+			spacing=0
+		}
+		if (isInExactChartArea(currentPoints, opts, config)) {
+		  xAxisPoints.forEach(function(item, index) {
+		    if (currentPoints.x + offset + spacing > item) {
+		      currentIndex = index;
+		    }
+		  });
+		}
 	}
-  if((opts.type=='line' || opts.type=='area') && opts.xAxis.boundaryGap=='justify'){
-    spacing = opts.chartData.eachSpacing/2;
-  }
-	if(!opts.categories){
-		spacing=0
-	}
-  if (isInExactChartArea(currentPoints, opts, config)) {
-    xAxisPoints.forEach(function(item, index) {
-      if (currentPoints.x + offset + spacing > item) {
-        currentIndex = index;
-      }
-    });
-  }
   return currentIndex;
 }
 
@@ -995,7 +1016,7 @@ function getXAxisTextList(series, opts, config) {
   data = data.filter(function(item) {
     //return item !== null;
     if (typeof item === 'object' && item !== null) {
-      if (item.constructor == Array) {
+      if (item.constructor.toString().indexOf('Array')>-1) {
         return item !== null;
       } else {
         return item.value !== null;
@@ -1006,7 +1027,7 @@ function getXAxisTextList(series, opts, config) {
   });
   data.map(function(item) {
     if (typeof item === 'object') {
-      if (item.constructor == Array) {
+      if (item.constructor.toString().indexOf('Array')>-1) {
 				if(opts.type=='candle'){
 					item.map(function(subitem) {
 					  sorted.push(subitem);
@@ -1051,9 +1072,9 @@ function getXAxisTextList(series, opts, config) {
     maxData += rangeSpan;
   }
 
-  var dataRange = getDataRange(minData, maxData);
-  var minRange = dataRange.minRange;
-  var maxRange = dataRange.maxRange;
+  //var dataRange = getDataRange(minData, maxData);
+  var minRange = minData;
+  var maxRange = maxData;
 
   var range = [];
   var eachRange = (maxRange - minRange) / opts.xAxis.splitNumber;
@@ -1075,6 +1096,7 @@ function calXAxisData(series, opts, config){
         item = opts.xAxis.format? opts.xAxis.format(item):util.toFixed(item, 2);
         return item;
     });
+		
     var xAxisScaleValues = result.ranges.map(function (item) {
         // 如果刻度值是浮点数,则保留两位小数
         item = util.toFixed(item, 2);
@@ -1425,10 +1447,9 @@ function getDataPoints(data, minRange, maxRange, xAxisPoints, eachSpacing, opts,
       point.x = xAxisPoints[index];
       var value = item;
       if (typeof item === 'object' && item !== null) {
-				if (item.constructor == Array) {
+				if (item.constructor.toString().indexOf('Array')>-1) {
 					let xranges,xminRange,xmaxRange;
 					xranges = [].concat(opts.chartData.xAxisData.ranges);
-					
 					xminRange = xranges.shift();
 					xmaxRange = xranges.pop();
 				  value = item[1];
@@ -1501,7 +1522,7 @@ function getYAxisTextList(series, opts, config, stack) {
   data = data.filter(function(item) {
     //return item !== null;
     if (typeof item === 'object' && item !== null) {
-      if (item.constructor == Array) {
+      if (item.constructor.toString().indexOf('Array')>-1) {
         return item !== null;
       } else {
         return item.value !== null;
@@ -1512,7 +1533,7 @@ function getYAxisTextList(series, opts, config, stack) {
   });
   data.map(function(item) {
     if (typeof item === 'object') {
-      if (item.constructor == Array) {
+      if (item.constructor.toString().indexOf('Array')>-1) {
 				if(opts.type=='candle'){
 					item.map(function(subitem) {
 					  sorted.push(subitem);
@@ -2312,7 +2333,7 @@ function drawColumnDataPoints(series, opts, config, context) {
             context.setFillStyle(item.color || eachSeries.color);
             var startX = item.x - item.width / 2;
             var height = opts.height - item.y - opts.area[2];
-            context.moveTo(startX-1, item.y);
+            context.moveTo(startX, item.y);
             context.lineTo(startX+item.width-2,item.y);
             context.lineTo(startX+item.width-2,opts.height - opts.area[2]);
             context.lineTo(startX,opts.height - opts.area[2]);
@@ -2473,7 +2494,7 @@ function drawCandleDataPoints(series, seriesMA, opts, config, context) {
   }
 
   //画均线
-  if (candleOption.average.show) {
+  if (candleOption.average.show || seriesMA) { //Merge pull request !12 from 邱贵翔
     seriesMA.forEach(function(eachSeries, seriesIndex) {
       let ranges,minRange,maxRange;
       ranges = [].concat(opts.chartData.yAxisData.ranges[eachSeries.index]);
@@ -2906,7 +2927,7 @@ function drawMixDataPoints(series, opts, config, context) {
           var startX = item.x - item.width / 2;
           var height = opts.height - item.y - opts.area[2];
           context.moveTo(startX, item.y);
-          context.moveTo(startX-1, item.y);
+          context.moveTo(startX, item.y);
           context.lineTo(startX+item.width-2,item.y);
           context.lineTo(startX+item.width-2,opts.height - opts.area[2]);
           context.lineTo(startX,opts.height - opts.area[2]);
@@ -5149,6 +5170,7 @@ var Charts = function Charts(opts) {
   opts.rotate = opts.rotate ? true : false;
   opts.animation = opts.animation ? true : false;
 	opts.rotate = opts.rotate ? true : false;
+	opts.canvas2d = opts.canvas2d ? true : false;
 
   let config$$1 = JSON.parse(JSON.stringify(config));
   config$$1.colors = opts.colors ? opts.colors : config$$1.colors;
@@ -5190,7 +5212,16 @@ var Charts = function Charts(opts) {
   config$$1.columePadding = config.columePadding * opts.pixelRatio;
   opts.$this = opts.$this ? opts.$this : this;
   
-  this.context = uni.createCanvasContext(opts.canvasId, opts.$this);
+  this.context = opts.context ? opts.context : uni.createCanvasContext(opts.canvasId, opts.$this);
+	
+	if(opts.canvas2d){
+		this.context.setStrokeStyle = function(e){ return this.strokeStyle=e; }
+		this.context.setLineWidth = function(e){ return this.lineWidth=e; }
+		this.context.setLineCap = function(e){ return this.lineCap=e; }
+		this.context.setFontSize = function(e){ return this.font=e+"px sans-serif"; }
+		this.context.setFillStyle = function(e){ return this.fillStyle=e; }
+		this.context.draw = function(){ }
+	}
   /* 兼容原生H5
   this.context = document.getElementById(opts.canvasId).getContext("2d");
   this.context.setStrokeStyle = function(e){ return this.strokeStyle=e; }
@@ -5408,7 +5439,7 @@ Charts.prototype.showToolTip = function(e) {
     animation: false
   });
   if (this.opts.type === 'line' || this.opts.type === 'area' || this.opts.type === 'column') {
-    var index = this.getCurrentDataIndex(e);
+    var index = option.index==undefined? this.getCurrentDataIndex(e):option.index ;
     if (index > -1) {
       var seriesData = getSeriesDataItem(this.opts.series, index);
       if (seriesData.length !== 0) {
@@ -5417,7 +5448,7 @@ Charts.prototype.showToolTip = function(e) {
           offset = _getToolTipData.offset;
         offset.y = _touches$.y;
         opts.tooltip = {
-          textList: textList,
+          textList: option.textList?option.textList:textList,
           offset: offset,
           option: option,
           index: index
@@ -5427,7 +5458,7 @@ Charts.prototype.showToolTip = function(e) {
     drawCharts.call(this, opts.type, opts, this.config, this.context);
   }
   if (this.opts.type === 'mix') {
-    var index = this.getCurrentDataIndex(e);
+    var index = option.index==undefined? this.getCurrentDataIndex(e):option.index ;
     if (index > -1) {
       var currentOffset = this.scrollOption.currentOffset;
       var opts = assign({}, this.opts, {
@@ -5441,7 +5472,7 @@ Charts.prototype.showToolTip = function(e) {
           offset = _getMixToolTipData.offset;
         offset.y = _touches$.y;
         opts.tooltip = {
-          textList: textList,
+          textList: option.textList?option.textList:textList,
           offset: offset,
           option: option,
           index: index
@@ -5451,7 +5482,7 @@ Charts.prototype.showToolTip = function(e) {
     drawCharts.call(this, opts.type, opts, this.config, this.context);
   }
   if (this.opts.type === 'candle') {
-    var index = this.getCurrentDataIndex(e);
+    var index = option.index==undefined? this.getCurrentDataIndex(e):option.index ;
     if (index > -1) {
       var currentOffset = this.scrollOption.currentOffset;
       var opts = assign({}, this.opts, {
@@ -5466,7 +5497,7 @@ Charts.prototype.showToolTip = function(e) {
           offset = _getToolTipData.offset;
         offset.y = _touches$.y;
         opts.tooltip = {
-          textList: textList,
+          textList: option.textList?option.textList:textList,
           offset: offset,
           option: option,
           index: index
@@ -5476,7 +5507,7 @@ Charts.prototype.showToolTip = function(e) {
     drawCharts.call(this, opts.type, opts, this.config, this.context);
   }
   if (this.opts.type === 'pie' || this.opts.type === 'ring' || this.opts.type === 'rose'||this.opts.type === 'funnel' ) {
-    var index = this.getCurrentDataIndex(e);
+    var index = option.index==undefined? this.getCurrentDataIndex(e):option.index ;
     if (index > -1) {
       var currentOffset = this.scrollOption.currentOffset;
       var opts = assign({}, this.opts, {
@@ -5493,7 +5524,7 @@ Charts.prototype.showToolTip = function(e) {
         y: _touches$.y
       };
       opts.tooltip = {
-        textList: textList,
+        textList: option.textList?option.textList:textList,
         offset: offset,
         option: option,
         index: index
@@ -5502,7 +5533,7 @@ Charts.prototype.showToolTip = function(e) {
     drawCharts.call(this, opts.type, opts, this.config, this.context);
   }
   if (this.opts.type === 'map'||this.opts.type === 'word') {
-    var index = this.getCurrentDataIndex(e);
+    var index = option.index==undefined? this.getCurrentDataIndex(e):option.index ;
     if (index > -1) {
       var currentOffset = this.scrollOption.currentOffset;
       var opts = assign({}, this.opts, {
@@ -5519,7 +5550,7 @@ Charts.prototype.showToolTip = function(e) {
         y: _touches$.y
       };
       opts.tooltip = {
-        textList: textList,
+        textList: option.textList?option.textList:textList,
         offset: offset,
         option: option,
         index: index
@@ -5529,7 +5560,7 @@ Charts.prototype.showToolTip = function(e) {
     drawCharts.call(this, opts.type, opts, this.config, this.context);
   }
   if (this.opts.type === 'radar') {
-    var index = this.getCurrentDataIndex(e);
+    var index = option.index==undefined? this.getCurrentDataIndex(e):option.index ;
     if (index > -1) {
       var currentOffset = this.scrollOption.currentOffset;
       var opts = assign({}, this.opts, {
@@ -5549,7 +5580,7 @@ Charts.prototype.showToolTip = function(e) {
           y: _touches$.y
         };
         opts.tooltip = {
-          textList: textList,
+          textList: option.textList?option.textList:textList,
           offset: offset,
           option: option,
           index: index

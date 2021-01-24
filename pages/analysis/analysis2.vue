@@ -35,7 +35,7 @@
 				textarea:''
 			}
 		},
-		onLoad() {
+		mounted() {
 			_self = this;
 			//#ifdef MP-ALIPAY
 			uni.getSystemInfo({

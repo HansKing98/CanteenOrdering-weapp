@@ -41,7 +41,7 @@
 				gender : ['请选择', '男', '女'],
 			}
 		},
-		onLoad() {
+		mounted() {
 			_self = this;
 			//#ifdef MP-ALIPAY
 			uni.getSystemInfo({

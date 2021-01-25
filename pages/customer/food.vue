@@ -35,7 +35,7 @@
 			return {
 				name:'菜名',
 				last:0,
-				dangkou:'档口'
+				dangkou:'川味小炒'
 			}
 		},
 		methods: {},

@@ -2,11 +2,14 @@
 	<gracePage :customHeader="false">
 		<!-- 页面主体 -->
 		<view class="grace-body" slot="gBody">
+			<view class="grace-title grace-margin-top">
+				<view class="grace-title-border"></view>
+				<text class="grace-title-text grace-blue">今日推荐菜品</text>
+			</view>
 			<view class="grace-list grace-flex grace-rows grace-wrap ">
 				<navigator class="grace-list-items list" v-for="item in foodlist" :url="'/pages/customer/food?name='+item.name+'&dangkou='+ dangkou +'&last='+item.last+'&src='+item.src">
 					<view class="grace-list-image">
 						<image class="grace-list-image" :src="'../../static/caipin/'+ item.src +'.jpg'" mode="aspectFill"></image>
-						<view class="grace-badge-point"></view>
 					</view>
 					<view class="grace-list-body grace-border-b">
 						<view class="grace-list-title">
@@ -25,7 +28,7 @@
 	export default {
 		data() {
 			return {
-				dangkou:'档口名称',
+				dangkou:'川味小炒',
 				foodlist:[
 					
 					{

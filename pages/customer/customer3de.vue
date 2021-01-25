@@ -18,7 +18,7 @@
 						<image class="grace-list-image" src="../../static/caipin/u1.jpg" mode="widthFix"></image>
 						<view class="grace-badge-point"></view>
 					</view>
-					<view class="grace-list-body grace-border-b" @click="navigateTo('/pages/customer/food')">
+					<view class="grace-list-body grace-border-b" @click="navigateTo('/pages/customer/food?name=糖醋里脊&src=u1&last=9')">
 						<view class="grace-list-title">
 							<text class="grace-list-title-text">糖醋里脊</text>
 							<text class="grace-list-title-desc">202003180820</text>
@@ -31,9 +31,9 @@
 					<view class="grace-list-image">
 						<image class="grace-list-image" src="../../static/caipin/u6.jpg" mode="widthFix"></image>
 					</view>
-					<view class="grace-list-body" @click="navigateTo('/pages/customer/food2')">
+					<view class="grace-list-body" @click="navigateTo('/pages/customer/food?name=京酱肉丝&src=u6&last=12')">
 						<view class="grace-list-title">
-							<text class="grace-list-title-text">鱼香肉丝</text>
+							<text class="grace-list-title-text">京酱肉丝</text>
 							<text class="grace-list-title-desc">202003181223</text>
 						</view>
 						<view class="grace-list-body-desc">营养详情</view>

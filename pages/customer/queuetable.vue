@@ -4,6 +4,7 @@
 			<view class="">
 				<view class="grace-card-title">
 					<text class="grace-card-name grace-text-small grace-blue">取餐密切接触名单</text>
+					<button type="primary" class="grace-button">导出</button>
 				</view>
 				<view class="grace-body">
 					<view class="grace-table grace-margin-top">

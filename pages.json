@@ -45,11 +45,16 @@
 				"navigationBarTitleText": "膳食均衡达标率"
 			}
 		}, {
-			"path": "pages/customer/customerlist",
+			"path": "pages/customer/dangkou",
 			"style": {
-				"navigationBarTitleText": "膳食列表"
+				"navigationBarTitleText": "档口"
 			}
-		}, {
+		},  {
+			"path": "pages/customer/foodlist",
+			"style": {
+				"navigationBarTitleText": "菜品"
+			}
+		},{
 			"path": "pages/customer/food",
 			"style": {
 				"navigationBarTitleText": "菜品详情"

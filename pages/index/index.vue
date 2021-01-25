@@ -17,6 +17,9 @@
 			</view>
 			<view class="demo">
 				<view>
+					<button type="primary" class="grace-button" @click="navigateTo('/pages/customer/dangkou')">档口列表</button>
+				</view>
+				<view>
 					<!-- <button type="primary" class="grace-button" plain="true" @click="navigateTo('/pages/analysis/analysis')">analysis</button>
 					<button type="primary" class="grace-button" plain="true" @click="navigateTo('/pages/analysis/analysis2')">analysis2</button> -->
 					<button type="primary" class="grace-button" plain="true" @click="navigateTo('/pages/analysis/index')">食堂情况分析</button>

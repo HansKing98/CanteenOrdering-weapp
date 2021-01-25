@@ -96,7 +96,6 @@
 
 <script>
 	import uCharts from '@/components/u-charts/u-charts.js';
-	import customerlist from "./customerlist.vue";
 	import graceShade from "../../graceUI/components/graceShade.vue";
 	import {
 		isJSON
@@ -115,7 +114,6 @@
 			}
 		},
 		components:{
-			customerlist
 		},
 		mounted() {
 			_self = this;

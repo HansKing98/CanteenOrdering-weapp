@@ -5,19 +5,19 @@
 				<text class="grace-h4 grace-bold">个人中心</text>
 			</view>
 			<view class="grace-list">
-				<view class="grace-list-items">
+				<navigator class="grace-list-items" url="/pages/login/login">
 					<view class="grace-list-image ucenter-face grace-relative">
 						<image class="grace-list-image ucenter-face-image" src="https://graceui.oss-cn-beijing.aliyuncs.com/faces/1.png"
 						 mode="widthFix"></image>
 					</view>
 					<view class="grace-list-body">
 						<view class="grace-list-title">
-							<text class="grace-list-title-text">李侦翼</text>
+							<text class="grace-list-title-text">高兰馨</text>
 						</view>
-						<view class="grace-list-body-desc">17062211</view>
+						<view class="grace-list-body-desc">170622</view>
 					</view>
 					<text class="grace-list-arrow-right grace-icons icon-arrow-right"></text>
-				</view>
+				</navigator>
 			</view>
 			<view class="ucenter-line"></view>
 			<view>

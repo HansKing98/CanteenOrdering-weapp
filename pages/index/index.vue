@@ -1,71 +1,61 @@
 <template>
 	<gracePage :customHeader="false">
-		<view class="grace-body" slot="gBody">
-			<view class="grace-title grace-margin-top">功能入口</view>
-			<view class="demo">
-				<view>
-					<button type="primary" class="grace-button" @click="navigateTo('/pages/login/login')">登录页</button>
-				</view>
-				<view>
-					<button type="warn" class="grace-button" @click="navigateTo('/pages/customer/customer')">营养分析</button>
-					<!-- <button type="warn" class="grace-button" @click="navigateTo('/pages/customer/customer2')">customer2</button> -->
-					<!-- <button type="warn" class="grace-button" @click="navigateTo('/pages/customer/customer3')">customer3</button> -->
-				</view>
-				<view class="">
-					<button type="primary" class="grace-button" @click="navigateTo('/pages/news/newslist')">食品安全资讯</button>
-				</view>
+		<!-- 页面主体 -->
+		<view slot="gBody" class="grace-body">
+			<view class="grace-icon-classes grace-wrap grace-space-between">
+				<navigator :url="item.path"
+				class="grace-ic-item" :style="{background:item.bgColor}" v-for="(item, index) in classes" :key="index">
+					<image :src="item.icon" class="grace-ic-image" mode="widthFix"></image>
+					<view class="grace-ic-content">
+						<text class="grace-ic-title grace-white">{{item.txt}}</text>
+						<text class="grace-text-small grace-white">{{item.smallTxt}}</text>
+					</view>
+					<image :src="item.icon" class="grace-ic-bg-image" mode="widthFix"></image>
+				</navigator>
 			</view>
-			<view class="demo">
-				<view>
-					<button type="primary" class="grace-button" @click="navigateTo('/pages/customer/dangkou')">档口列表</button>
-				</view>
-				<view>
-					<!-- <button type="primary" class="grace-button" plain="true" @click="navigateTo('/pages/analysis/analysis')">analysis</button>
-					<button type="primary" class="grace-button" plain="true" @click="navigateTo('/pages/analysis/analysis2')">analysis2</button> -->
-					<button type="primary" class="grace-button" plain="true" @click="navigateTo('/pages/analysis/index')">食堂情况分析</button>
-				</view>
-			</view>
-			<view class="grace-title grace-margin-top">其他入口</view>
-			<view class="demo">
-				<view>
-					<button @click="navigateTo('/pages/screen/screen1')" type="primary" class="grace-button grace-gtbg-green">screen1</button>
-				</view>
-				<view>
-					<button @click="navigateTo('/pages/screen/screen2')" type="primary" class="grace-button  grace-gtbg-blue">screen2</button>
-				</view>
-			</view>
-			<view style="height:50px;"></view>
+			<foodlist />
 		</view>
 	</gracePage>
 </template>
 <script>
-	import gracePage from "../../graceUI/components/gracePage.vue";
-	export default {
-		data() {
-			return {}
-		},
-		methods: {
-			navigateTo(url) {
-				uni.navigateTo({
-					url: url
-				});
-			}
-		},
-		components: {
-			gracePage
+import gracePage from "../../graceUI/components/gracePage.vue";
+import foodlist from "../customer/foodlist2.vue";
+export default {
+    data() {
+    	return {
+			classes : [
+				{
+					icon:'https://graceui.oss-cn-beijing.aliyuncs.com/classes/card.png', 
+					txt:'每日营养分析', smallTxt:"Analysis", bgColor:"#6DCD70",
+					path:"/pages/customer/customer", openType:"switchTab"
+				},
+				{
+					icon:'https://graceui.oss-cn-beijing.aliyuncs.com/classes/mall.png',
+					txt:'档口列表', smallTxt:"Mall", bgColor:"#4D5CBC",
+					path:"/pages/customer/dangkou", openType:"navigate"
+				},
+				{
+					icon:'https://graceui.oss-cn-beijing.aliyuncs.com/classes/msg.png', 
+					txt:'食品安全资讯', smallTxt:"News", bgColor:"#1296fe",
+					path:"/pages/news/newslist", openType:"navigate"
+				}
+			]
 		}
+    },
+	methods:{
+		
+	},
+	components:{
+		gracePage,
+		foodlist
 	}
+}
 </script>
 <style>
-	.demo {
-		display: flex;
-		flex-wrap: nowrap;
-		border-left: 1px solid #F8F8F8;
-	}
-
-	.demo view {
-		width: 100%;
-		text-align: center;
-		margin: 10rpx;
-	}
+.grace-icon-classes{}
+.grace-ic-item{width:700rpx; height:158rpx; font-size:0; border-radius:5px; position:relative; margin:10rpx 0; overflow:hidden; display:flex; flex-direction:column; justify-content:center;}
+.grace-ic-image{width:60rpx; height:56rpx; margin-left:20rpx;}
+.grace-ic-bg-image{width:70rpx; height:66rpx; position:absolute; opacity:0.1; right:6px; bottom:6px;}
+.grace-ic-content{padding:10rpx 20rpx;}
+.grace-ic-title{line-height:40rpx; font-size:28rpx; margin-right:3px;}
 </style>

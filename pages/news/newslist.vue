@@ -1,18 +1,18 @@
 <template>
 	<view>
 		<view class="banner" @click="goDetail(banner)">
-			<image class="banner-img" :src="banner.cover"></image>
+			<image class="banner-img" :src="banner.pic"></image>
 			<view class="banner-title">{{banner.title}}</view>
 		</view>
 		<view class="uni-list">
 			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in listData" :key="key" @click="goDetail(value)">
 				<view class="uni-media-list">
-					<image class="uni-media-list-logo" :src="value.cover"></image>
+					<image class="uni-media-list-logo" :src="value.pic"></image>
 					<view class="uni-media-list-body">
 						<view class="uni-media-list-text-top">{{value.title}}</view>
 						<view class="uni-media-list-text-bottom">
-							<text>{{value.author_name}}</text>
-							<text>{{value.published_at}}</text>
+							<text>{{value.src}}</text>
+							<text>{{value.time}}</text>
 						</view>
 					</view>
 				</view>
@@ -52,12 +52,13 @@
 					column: "id,post_id,title,author_name,cover,published_at" //需要的字段名
 				};
 				uni.request({
-					url: 'https://unidemo.dcloud.net.cn/api/banner/36kr',
-					data: data,
+					url: 'https://way.jd.com/jisuapi/get?channel=健康&num=1&start=0&appkey=9e30d6f6ad3cf21352030e4fa9512ca7',
+					// data: data,
 					success: (data) => {
+						// console.log('datadata',data.data.result.result.list[0])
 						uni.stopPullDownRefresh();
 						if (data.statusCode == 200) {
-							this.banner = data.data;
+							this.banner = data.data.result.result.list[0];
 						}
 					},
 					fail: (data, code) => {
@@ -75,11 +76,13 @@
 					data.pageSize = 10;
 				}
 				uni.request({
-					url: 'https://unidemo.dcloud.net.cn/api/news',
-					data: data,
+					url: 'https://way.jd.com/jisuapi/newSearch?keyword=食品安全&appkey=9e30d6f6ad3cf21352030e4fa9512ca7',
 					success: (data) => {
+						// console.log(data.data.result.result.list)
 						if (data.statusCode == 200) {
-							let list = this.setTime(data.data);
+							let list = data.data.result.result.list;
+							// this.listData = list
+							// console.log('data',this.listData)
 							this.listData = this.reload ? list : this.listData.concat(list);
 							this.last_id = list[list.length - 1].id;
 							this.reload = false;
@@ -95,12 +98,13 @@
 				// 					e.published_at = dateUtils.format(e.published_at);
 				// 				}
 				let detail = {
-					author_name: e.author_name,
-					cover: e.cover,
+					author_name: e.src,
+					cover: e.pic,
 					id: e.id,
 					post_id: e.post_id,
-					published_at: e.published_at,
-					title: e.title
+					published_at: e.time,
+					title: e.title,
+					content: e.content
 				}
 				// console.log('detail', encodeURIComponent(JSON.stringify(detail)))
 				uni.navigateTo({
@@ -116,7 +120,7 @@
 						cover: e.cover,
 						id: e.id,
 						post_id: e.post_id,
-						published_at: dateUtils.format(e.published_at),
+						published_at: dateUtils.format(e.time),
 						title: e.title
 					});
 				});

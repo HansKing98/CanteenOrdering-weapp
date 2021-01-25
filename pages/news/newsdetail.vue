@@ -10,11 +10,14 @@
 			<text class="article-time">{{banner.published_at}}</text>
 		</view>
 		<view class="article-content">
-			<rich-text :nodes="htmlString"></rich-text>
+			<rich-text :nodes="banner.content"></rich-text>
 		</view>
 		<!-- #ifdef MP-WEIXIN -->
 		<ad v-if="htmlString" unit-id="adunit-01b7a010bf53d74e"></ad>
 		<!-- #endif -->
+		<!-- <div v-html="content"></div> -->
+		<!-- <web-view :webview-styles="webviewStyles" src="https://uniapp.dcloud.io/static/web-view.html"></web-view> -->
+
 	</view>
 </template>
 
@@ -24,7 +27,7 @@
 			return {
 				title: 'list-triplex-row',
 				banner: {},
-				htmlString: ""
+				htmlString: "",
 			}
 		},
 		// onShareAppMessage() {
@@ -43,27 +46,17 @@
 				this.banner = JSON.parse(event.detailDate);
 			}
 
-			this.getDetail();
 			uni.setNavigationBarTitle({
 				title: this.banner.title
 			});
+			// 图片转换格式
+			this.banner.content = this.banner.content.replace(/\\/g, "").replace(/<img/g,
+				"<img style=\"width:100%;\"");
+			// 删除第一张图片
+			this.banner.content = this.banner.content.replace(/\\/, "").replace(/<img/,
+				"<img style=\"display:none;\"");
 		},
-		methods: {
-			getDetail() {
-				uni.request({
-					url: 'https://unidemo.dcloud.net.cn/api/news/36kr/' + this.banner.post_id,
-					success: (data) => {
-						if (data.statusCode == 200) {
-							this.htmlString = data.data.content.replace(/\\/g, "").replace(/<img/g,
-								"<img style=\"display:none;\"");
-						}
-					},
-					fail: () => {
-						console.log('fail');
-					}
-				})
-			}
-		}
+		methods: {},
 	}
 </script>
 

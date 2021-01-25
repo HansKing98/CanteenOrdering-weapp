@@ -1,13 +1,7 @@
 <template>
 	<view class="qiun-columns">
 			<view class="grace-form-item grace-border-b">
-				<text class="grace-form-label grace-blue grace-h3">选择食堂</text>
-				<view class="grace-form-body">
-					<picker class="grace-form-picker" name="gender">
-						<text class="grace-text grace-gray">学六食堂</text>
-						<text class="grace-icons icon-arrow-down" style="margin-left:5px;"></text>
-					</picker>
-				</view>
+				<text class="grace-form-label grace-blue grace-h3">月销售额</text>
 			</view>
 		<view class="qiun-charts" >
 			<!--#ifdef MP-ALIPAY -->

@@ -48,12 +48,8 @@
 		},
 		methods: {
 			getBanner() {
-				let data = {
-					column: "id,post_id,title,author_name,cover,published_at" //需要的字段名
-				};
 				uni.request({
-					url: 'https://way.jd.com/jisuapi/get?channel=健康&num=1&start=0&appkey=9e30d6f6ad3cf21352030e4fa9512ca7',
-					// data: data,
+					url: '/api/jisuapi/get?channel=健康&num=1&start=0&appkey=9e30d6f6ad3cf21352030e4fa9512ca7',
 					success: (data) => {
 						// console.log('datadata',data.data.result.result.list[0])
 						uni.stopPullDownRefresh();
@@ -76,7 +72,7 @@
 					data.pageSize = 10;
 				}
 				uni.request({
-					url: 'https://way.jd.com/jisuapi/newSearch?keyword=食品安全&appkey=9e30d6f6ad3cf21352030e4fa9512ca7',
+					url: '/api/jisuapi/newSearch?keyword=食品安全&appkey=9e30d6f6ad3cf21352030e4fa9512ca7',
 					success: (data) => {
 						// console.log(data.data.result.result.list)
 						if (data.statusCode == 200) {

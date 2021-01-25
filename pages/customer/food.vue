@@ -4,10 +4,11 @@
 		<view slot="gBody" class="grace-body">
 			<view class="grace-card-view">
 				<view class="grace-card-body grace-border-b">
-					<image src="../../static/caipin/u1.jpg" class="grace-card-img"></image>
+					<image :src="'../../static/caipin/'+ src +'.jpg'" class="grace-card-img" mode="aspectFill"></image>
 					<view class="grace-card-desc">
 						<view class="grace-card-title">
-							<text class="grace-card-name grace-text-small grace-blue">糖醋里脊</text>
+							<text class="grace-card-name grace-text-small">{{name}}</text>
+							<text class="grace-card-name grace-text-small grace-blue">{{last}}份</text>
 						</view>
 						<text class="grace-card-text">202003180820</text>
 						<text class="grace-card-text">能量：<text class="grace-red">1100kcal </text> </text>
@@ -16,7 +17,7 @@
 						<text class="grace-card-text">蛋白质：<text class="grace-green">10g </text></text>
 						<text class="grace-card-text">水分：<text class="grace-blue">50ml </text></text>
 					</view>
-					<text class="grace-card-text">档口：<text class="grace-blue">川味小炒</text></text>
+					<text class="grace-card-text">档口：<text class="grace-blue">{{dangkou}}</text></text>
 				</view>
 			</view>
 			<foodtable />
@@ -31,14 +32,26 @@
 	import queuetable from "./queuetable.vue";
 	export default {
 		data() {
-			return {}
+			return {
+				name:'菜名',
+				last:0,
+				dangkou:'档口'
+			}
 		},
 		methods: {},
 		components: {
 			gracePage,
 			foodtable,
 			queuetable
-		}
+		},
+		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
+			if(JSON.stringify(option) !== '{}'){
+				this.name= option.name
+				this.src= option.src
+				this.last= option.last
+				this.dangkou= option.dangkou
+			}
+		},
 	}
 </script>
 <style>

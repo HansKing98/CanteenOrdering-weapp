@@ -2,9 +2,14 @@
 	<gracePage :customHeader="false">
 		<!-- 页面主体 -->
 		<view class="grace-body" slot="gBody">
+			<view class="grace-margin-top">
+				<view class="grace-title grace-margin-top">档口评分</view>
+					菜品综合评分：<graceSingleSlider ref="graceSingleSlider1" :barText="'好评：'+ rate" :canSlide='false'></graceSingleSlider>
+					档口卫生评分：<graceSingleSlider ref="graceSingleSlider2" :barText="'好评：'+ rate2" :canSlide='false'></graceSingleSlider>
+			</view>
 			<view class="grace-title grace-margin-top">现有菜品</view>
 			<view class="grace-list">
-				<navigator class="grace-list-items" v-for="item in foodlist">
+				<navigator class="grace-list-items" v-for="item in foodlist" :url="'/pages/customer/food?name='+item.name+'&dangkou='+ dangkou +'&last='+item.last+'&src='+item.src">
 					<view class="grace-list-image grace-relative">
 						<image class="grace-list-image" :src="'../../static/caipin/'+ item.src +'.jpg'" mode="aspectFill"></image>
 						<view class="grace-badge-point"></view>
@@ -25,6 +30,7 @@
 <script>
 	import gracePage from "../../graceUI/components/gracePage.vue";
 	import graceFlex from "../../graceUI/components/graceFlex.vue";
+	import graceSingleSlider from "../../graceUI/components/graceSingleSlider.vue";
 	export default {
 		data() {
 			return {
@@ -76,16 +82,25 @@
 						src:'u9',
 						last:6
 					},
-				]
+				],
+				rate : '98',
+				rate2 : '98',
 			}
 		},
 		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
 			if(JSON.stringify(option) !== '{}'){
 				this.dangkou= option.name
+				this.rate= option.rate
+				this.rate2= option.rate2
 			}
+			setTimeout(() => {
+				this.$refs.graceSingleSlider1.setProgress(this.rate);
+				this.$refs.graceSingleSlider2.setProgress(this.rate2);
+			});
 		},
 		methods: {},
 		components: {
+			graceSingleSlider,
 			gracePage,
 			graceFlex
 		}

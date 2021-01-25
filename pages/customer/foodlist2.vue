@@ -30,7 +30,6 @@
 			return {
 				dangkou:'川味小炒',
 				foodlist:[
-					
 					{
 						name:'糖醋里脊',
 						src:'u2',

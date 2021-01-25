@@ -3,7 +3,7 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "易点点"
+				"navigationBarTitleText": "智点点"
 
 			}
 		}, {
@@ -95,7 +95,7 @@
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
-		"navigationBarTitleText": "易点点",
+		"navigationBarTitleText": "智点点",
 		"navigationBarBackgroundColor": "#3688FF",
 		"backgroundColor": "#F8F8F8"
 	}

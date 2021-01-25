@@ -47,19 +47,21 @@
 			this.getList();
 		},
 		methods: {
-			getBanner() {
-				uni.request({
-					url: '/api/jisuapi/get?channel=健康&num=1&start=0&appkey=9e30d6f6ad3cf21352030e4fa9512ca7',
-					success: (data) => {
-						// console.log('datadata',data.data.result.result.list[0])
-						uni.stopPullDownRefresh();
-						if (data.statusCode == 200) {
-							this.banner = data.data.result.result.list[0];
-						}
-					},
-					fail: (data, code) => {
-						console.log('fail' + JSON.stringify(data));
+			getBanner() {			
+				uniCloud.callFunction({
+					name: 'getNewsLists'
+				}).then((res) => {
+					uni.stopPullDownRefresh();
+					if (res.success) {
+						this.banner = res.result.list[0];
 					}
+				}).catch((err) => {
+					uni.hideLoading()
+					uni.showModal({
+						content: `查询失败，错误信息为：${err.message}`,
+						showCancel: false
+					})
+					console.error(err)
 				})
 			},
 			getList() {
@@ -71,22 +73,24 @@
 					data.time = new Date().getTime() + "";
 					data.pageSize = 10;
 				}
-				uni.request({
-					url: '/api/jisuapi/newSearch?keyword=食品安全&appkey=9e30d6f6ad3cf21352030e4fa9512ca7',
-					success: (data) => {
-						// console.log(data.data.result.result.list)
-						if (data.statusCode == 200) {
-							let list = data.data.result.result.list;
-							// this.listData = list
-							// console.log('data',this.listData)
-							this.listData = this.reload ? list : this.listData.concat(list);
-							this.last_id = list[list.length - 1].id;
-							this.reload = false;
-						}
-					},
-					fail: (data, code) => {
-						console.log('fail' + JSON.stringify(data));
+				uniCloud.callFunction({
+					name: 'getNewsLists'
+				}).then((res) => {
+					if (res.success) {
+						let list = res.result.list;
+						// this.listData = list
+						// console.log('data',this.listData)
+						this.listData = this.reload ? list : this.listData.concat(list);
+						this.last_id = list[list.length - 1].id;
+						this.reload = false;
 					}
+				}).catch((err) => {
+					uni.hideLoading()
+					uni.showModal({
+						content: `查询失败，错误信息为：${err.message}`,
+						showCancel: false
+					})
+					console.error(err)
 				})
 			},
 			goDetail: function(e) {

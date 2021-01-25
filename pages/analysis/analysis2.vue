@@ -1,7 +1,8 @@
 <template>
 	<view class="qiun-columns">
-			<view class="grace-form-item grace-border-b">
+			<view class="grace-flex grace-title grace-margin-top grace-space-between" >
 				<text class="grace-form-label grace-blue grace-h3">月销售额</text>
+				<button type="primary" class="grace-button">导出</button>
 			</view>
 		<view class="qiun-charts" >
 			<!--#ifdef MP-ALIPAY -->

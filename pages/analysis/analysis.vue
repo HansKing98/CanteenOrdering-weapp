@@ -1,7 +1,7 @@
 <template>
 	<view class="qiun-columns">
 		<!--#ifdef H5 -->
-		<view class="grace-form-item grace-border-b">
+		<!-- <view class="grace-form-item grace-border-b">
 			<text class="grace-form-label grace-blue grace-h3">选择食堂</text>
 			<view class="grace-form-body">
 				<picker class="grace-form-picker" @change="pickerChange" :value="genderIndex" :range="gender" name="gender">
@@ -9,10 +9,13 @@
 					<text class="grace-icons icon-arrow-down" style="margin-left:5px;"></text>
 				</picker>
 			</view>
-		</view>
+		</view> -->
 
 		<!--#endif-->
-
+		<view class="grace-flex grace-title grace-margin-top grace-space-between" >
+			<text class="grace-form-label grace-blue grace-h3">日销售额</text>
+			<button type="primary" class="grace-button">导出</button>
+		</view>
 		<view class="qiun-charts">
 			<!--#ifdef MP-ALIPAY -->
 			<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" :width="cWidth*pixelRatio" :height="cHeight*pixelRatio"

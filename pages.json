@@ -22,7 +22,7 @@
 		}, {
 			"path": "pages/analysis/index",
 			"style": {
-				"navigationBarTitleText": "食堂分析3"
+				"navigationBarTitleText": "档口数据分析"
 			}
 		}, {
 			"path": "pages/customer/customer",
@@ -67,7 +67,7 @@
 		}, {
 			"path": "pages/news/newslist",
 			"style": {
-				"navigationBarTitleText": "新闻"
+				"navigationBarTitleText": "食品安全资讯"
 			}
 		},
 		{

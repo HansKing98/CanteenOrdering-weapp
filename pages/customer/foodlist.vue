@@ -7,6 +7,18 @@
 					菜品综合评分：<graceSingleSlider ref="graceSingleSlider1" :barText="'好评：'+ rate" :canSlide='false'></graceSingleSlider>
 					档口卫生评分：<graceSingleSlider ref="graceSingleSlider2" :barText="'好评：'+ rate2" :canSlide='false'></graceSingleSlider>
 			</view>
+			<view class="grace-title grace-margin-top">销售统计</view>
+			<navigator url="/pages/analysis/index">
+				<view class="grace-list-items">
+					<view class="grace-list-body grace-border-b">
+						<view class="grace-list-title">
+							<text class="grace-list-title-text">月销售：1998份</text>
+							<text class="grace-list-title-desc">查看统计详情</text>
+						</view>
+					</view>
+					<text class="grace-list-arrow-right grace-icons icon-arrow-right"></text>
+				</view >
+			</navigator>
 			<view class="grace-title grace-margin-top">现有菜品</view>
 			<view class="grace-list">
 				<navigator class="grace-list-items" v-for="item in foodlist" :url="'/pages/customer/food?name='+item.name+'&dangkou='+ dangkou +'&last='+item.last+'&src='+item.src">

@@ -92,7 +92,16 @@
 			}
 		}
 
-	],
+	    ,{
+            "path" : "pages/customer/shitang",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "食堂",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "智点点",

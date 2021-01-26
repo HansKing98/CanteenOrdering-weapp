@@ -7,7 +7,10 @@
 			<view class="grace-list">
 				<navigator class="grace-list-items" :url="'/pages/customer/foodlist?name='+item.name+'&rate='+item.rate+'&rate2='+item.rate2"
 				 v-for="(item,index) in dangkouList" :key="index">
-					<text class="grace-list-icon grace-icons icon-face" :class="index%2?'grace.name-green':'grace-blue'"></text>
+					<view style="position:relative;width: 100upx;height: 120upx;">
+						<text class="grace-list-icon grace-icons icon-img grace-gray uni-media-list-logo img-abs" style="font-size: 60upx;"></text>
+						<image class="uni-media-list-logo img-abs" mode="aspectFill" :src="'https://www.dute.org/imgplaceholder/160x200?forecolor=3688FF&bgcolor=F8F8F8&text='+ item.name.slice(0,2)"></image>
+					</view>
 					<view class="grace-list-body grace-border-b">
 						<view class="grace-list-title">
 							<text class="grace-list-title-text">{{item.name}}</text>
@@ -65,4 +68,14 @@
 	}
 </script>
 <style>
+	.uni-media-list-logo {
+		width: 100upx;
+		height: 100upx;
+		border-radius: 50%;
+		margin: 10upx;
+	}
+
+	.img-abs {
+		position: absolute
+	}
 </style>

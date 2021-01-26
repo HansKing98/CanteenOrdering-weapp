@@ -2,10 +2,11 @@
 	<gracePage :customHeader="false">
 		<!-- 页面主体 -->
 		<view class="grace-body" slot="gBody">
-			
-			<view class="grace-title grace-margin-top">开放档口</view>
+			<skeleton :loading="loading" :avatarSize="skeleton1.avatarSize" :row="skeleton1.row" :showTitle="skeleton1.showTitle"
+			 :animate="skeleton1.animate" v-for="i in 6"></skeleton>
 			<view class="grace-list">
-				<navigator class="grace-list-items" :url="'/pages/customer/foodlist?name='+item.name+'&rate='+item.rate+'&rate2='+item.rate2" v-for="(item,index) in dangkouList">
+				<navigator class="grace-list-items" :url="'/pages/customer/foodlist?name='+item.name+'&rate='+item.rate+'&rate2='+item.rate2"
+				 v-for="(item,index) in dangkouList">
 					<text class="grace-list-icon grace-icons icon-face" :class="index%2?'grace.name-green':'grace-blue'"></text>
 					<view class="grace-list-body grace-border-b">
 						<view class="grace-list-title">
@@ -26,43 +27,41 @@
 	import gracePage from "../../graceUI/components/gracePage.vue";
 	import graceFlex from "../../graceUI/components/graceFlex.vue";
 	export default {
-		data() {
-			return {
-				dangkouList: [{
-					name: '川味小炒',
-					rate: 100,
-					rate2: 90,
-				}, {
-					name: '山西面馆',
-					rate2: 100,
-					rate: 98
-				}, {
-					name: '过桥米线',
-					rate: 90,
-					rate2: 95,
-				}, {
-					name: '好粥道',
-					rate: 100,
-					rate2: 88,
-				}, {
-					name: '土家酱香饼',
-					rate: 90,
-					rate2: 88,
-				}, {
-					name: '煲仔饭档口',
-					rate: 88,
-					rate2: 90,
-				}]
-			}
-		},
-		onLoad: function() {
-			
-		},
-		methods: {},
 		components: {
 			gracePage,
-			graceFlex
-		}
+			graceFlex,
+		},
+		data() {
+			return {
+				dangkouList: [],
+				loading: true,
+				skeleton1: {
+					avatarSize: '40px',
+					row: 1,
+					showTitle: true,
+					animate: true
+				}
+			}
+		},
+		created: function() {
+			this.loading = true
+			uniCloud.callFunction({
+				name: 'getDangkouList'
+			}).then((res) => {
+				// console.log('res',res.result.data)
+				this.dangkouList = res.result.data
+			}).catch((err) => {
+				uni.hideLoading()
+				uni.showModal({
+					content: `查询失败，错误信息为：${err.message}`,
+					showCancel: false
+				})
+				console.error(err)
+			}).finally(() => {
+				this.loading = false
+			})
+		},
+		methods: {}
 	}
 </script>
 <style>

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="banner">
+		<view class="banner" :class="{'none-banner':!banner.cover}">
 			<image class="banner-img" :src="banner.cover"></image>
 			<view class="banner-title">{{banner.title}}</view>
 		</view>
@@ -72,11 +72,13 @@
 		position: relative;
 		background-color: #ccc;
 	}
-
+	.none-banner{
+		height: 140upx;
+		background-color: #3688FF;
+	}
 	.banner-img {
 		width: 100%;
 	}
-
 	.banner-title {
 		max-height: 84upx;
 		overflow: hidden;

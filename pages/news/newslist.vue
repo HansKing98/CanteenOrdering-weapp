@@ -1,13 +1,15 @@
 <template>
 	<view>
-		<view class="banner" @click="goDetail(banner)">
+		<skeleton :loading="bannerLoading" avatarSize="40px" :row="5" :showTitle="true" :animate="true" :showAvatar="false"></skeleton>
+		<view class="banner" @click="goDetail(banner)" v-show="!bannerLoading">
 			<image class="banner-img" :src="banner.pic"></image>
 			<view class="banner-title">{{banner.title}}</view>
 		</view>
+		<skeleton :loading="listLoading" avatarSize="40px" :row="2" :showTitle="true" :animate="true" v-for="i in 10"></skeleton>
 		<view class="uni-list">
 			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in listData" :key="key" @click="goDetail(value)">
 				<view class="uni-media-list">
-					<image class="uni-media-list-logo" :src="value.pic"></image>
+					<image class="uni-media-list-logo" :src="value.pic" v-if="value.pic"></image>
 					<view class="uni-media-list-body">
 						<view class="uni-media-list-text-top">{{value.title}}</view>
 						<view class="uni-media-list-text-bottom">
@@ -30,7 +32,9 @@
 				banner: {},
 				listData: [],
 				last_id: "",
-				reload: false
+				reload: false,
+				bannerLoading: true,
+				listLoading: true
 			}
 		},
 		onLoad() {
@@ -47,9 +51,9 @@
 			this.getList();
 		},
 		methods: {
-			getBanner() {			
+			getBanner() {
 				uniCloud.callFunction({
-					name: 'getNewsLists'
+					name: 'getNewsBanner'
 				}).then((res) => {
 					uni.stopPullDownRefresh();
 					if (res.success) {
@@ -62,6 +66,8 @@
 						showCancel: false
 					})
 					console.error(err)
+				}).finally(() => {
+					this.bannerLoading = false
 				})
 			},
 			getList() {
@@ -91,6 +97,8 @@
 						showCancel: false
 					})
 					console.error(err)
+				}).finally(() => {
+					this.listLoading = false
 				})
 			},
 			goDetail: function(e) {

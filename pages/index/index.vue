@@ -31,7 +31,12 @@ export default {
 				},
 				{
 					icon:'https://graceui.oss-cn-beijing.aliyuncs.com/classes/mall.png',
-					txt:'档口列表', smallTxt:"Mall", bgColor:"#4D5CBC",
+					txt:'食堂', smallTxt:"Canteen", bgColor:"#cc66ff",
+					path:"/pages/customer/shitang", openType:"navigate"
+				},
+				{
+					icon:'https://graceui.oss-cn-beijing.aliyuncs.com/classes/mall.png',
+					txt:'档口', smallTxt:"Stall", bgColor:"#4D5CBC",
 					path:"/pages/customer/dangkou", openType:"navigate"
 				},
 				{

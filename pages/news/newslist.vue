@@ -5,7 +5,7 @@
 			<image class="banner-img" :src="banner.pic"></image>
 			<view class="banner-title">{{banner.title}}</view>
 		</view>
-		<skeleton :loading="listLoading" avatarSize="40px" :row="2" :showTitle="true" :animate="true" v-for="i in 10"></skeleton>
+		<skeleton :loading="listLoading" avatarSize="40px" :row="2" :showTitle="true" :animate="true" v-for="(i,index) in 10" :key="index"></skeleton>
 		<view class="uni-list">
 			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in listData" :key="key" @click="goDetail(value)">
 				<view class="uni-media-list">

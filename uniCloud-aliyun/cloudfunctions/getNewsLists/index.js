@@ -1,8 +1,5 @@
 'use strict';
-const db = uniCloud.database()
 exports.main = async (event, context) => {
-	const collection = db.collection('unicloud-test')
-	// const res = await collection.limit(10).get()
 	const apiUrl = 'https://way.jd.com/jisuapi/newSearch?keyword=食品安全&appkey=9e30d6f6ad3cf21352030e4fa9512ca7'
 	const res = await uniCloud.httpclient.request(apiUrl, {
 	    method: 'GET',

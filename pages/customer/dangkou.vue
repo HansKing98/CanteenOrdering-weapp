@@ -3,10 +3,10 @@
 		<!-- 页面主体 -->
 		<view class="grace-body" slot="gBody">
 			<skeleton :loading="loading" :avatarSize="skeleton1.avatarSize" :row="skeleton1.row" :showTitle="skeleton1.showTitle"
-			 :animate="skeleton1.animate" v-for="i in 6"></skeleton>
+			 :animate="skeleton1.animate" v-for="(i,index) in 6" :key="index"></skeleton>
 			<view class="grace-list">
 				<navigator class="grace-list-items" :url="'/pages/customer/foodlist?name='+item.name+'&rate='+item.rate+'&rate2='+item.rate2"
-				 v-for="(item,index) in dangkouList">
+				 v-for="(item,index) in dangkouList" :key="index">
 					<text class="grace-list-icon grace-icons icon-face" :class="index%2?'grace.name-green':'grace-blue'"></text>
 					<view class="grace-list-body grace-border-b">
 						<view class="grace-list-title">

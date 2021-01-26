@@ -43,7 +43,7 @@
 				}
 			});
 			//#endif
-			this.cWidth=uni.upx2px(750);
+			this.cWidth=uni.upx2px(758);
 			this.cHeight=uni.upx2px(500);
 			this.getServerData();
 		},
@@ -140,13 +140,13 @@
 <style>
 	/*样式的width和height一定要与定义的cWidth和cHeight相对应*/
 	.qiun-charts {
-		width: 750upx;
+		width: 355px;
 		height: 500upx;
 		background-color: #FFFFFF;
 	}
 	
 	.charts {
-		width: 750upx;
+		width: 375px;
 		height: 500upx;
 		background-color: #FFFFFF;
 	}

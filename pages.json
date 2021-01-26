@@ -49,12 +49,12 @@
 			"style": {
 				"navigationBarTitleText": "档口"
 			}
-		},  {
+		}, {
 			"path": "pages/customer/foodlist",
 			"style": {
 				"navigationBarTitleText": "菜品"
 			}
-		},{
+		}, {
 			"path": "pages/customer/food",
 			"style": {
 				"navigationBarTitleText": "菜品详情"
@@ -98,5 +98,21 @@
 		"navigationBarTitleText": "智点点",
 		"navigationBarBackgroundColor": "#3688FF",
 		"backgroundColor": "#F8F8F8"
+	},
+	// "topWindow": {
+	// 	"path": "responsive/left-window",
+	// 	"style": {
+	// 		"height": "300px",
+	// 		"width": "calc(100vw - 375px)"
+	// 	}
+	// },
+	"leftWindow": {
+		"path": "responsive/left-window",
+		"style": {
+			"width": "calc(100vw - 375px)"
+		},
+		"matchMedia": {
+			"minWidth": 768
+		}
 	}
 }

@@ -128,7 +128,7 @@
 				}
 			});
 			//#endif
-			this.cWidth = uni.upx2px(750);
+			this.cWidth = uni.upx2px(700);
 			this.cHeight = uni.upx2px(340);
 			this.arcbarWidth = uni.upx2px(26);
 			this.getServerData();

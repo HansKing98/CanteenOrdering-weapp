@@ -18,6 +18,6 @@
 
 <style>
 	.page{
-		padding: 0 16px; 
+		padding-left: 20px; 
 	}
 </style>

@@ -104,6 +104,9 @@
 				this.dangkou= option.name
 				this.rate= option.rate
 				this.rate2= option.rate2
+				uni.setNavigationBarTitle({
+					title: option.name
+				});
 			}
 			setTimeout(() => {
 				this.$refs.graceSingleSlider1.setProgress(this.rate);

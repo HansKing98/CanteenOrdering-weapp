@@ -46,7 +46,12 @@
 				}
 			}
 		},
-		created: function() {
+		onLoad: function(option) {
+			if (JSON.stringify(option) !== '{}') {
+				uni.setNavigationBarTitle({
+					title: option.name
+				});
+			}
 			this.loading = true
 			uniCloud.callFunction({
 				name: 'getDangkouList'

@@ -46,25 +46,35 @@
 				}
 			}
 		},
-		created: function() {
+		onLoad: function() {
 			this.loading = true
-			uniCloud.callFunction({
-				name: 'getShitangList'
-			}).then((res) => {
-				// console.log('res',res.result.data)
-				this.shitang = res.result.data
-			}).catch((err) => {
-				uni.hideLoading()
-				uni.showModal({
-					content: `查询失败，错误信息为：${err.message}`,
-					showCancel: false
-				})
-				console.error(err)
-			}).finally(() => {
-				this.loading = false
+			this.getShitangList()
+		},
+		onPullDownRefresh: function() {
+			this.getShitangList().then(res => {
+				uni.stopPullDownRefresh()
 			})
 		},
-		methods: {}
+		methods: {
+			getShitangList: function() {
+				uniCloud.callFunction({
+					name: 'getShitangList'
+				}).then((res) => {
+					// console.log('res',res.result.data)
+					this.shitang = res.result.data
+				}).catch((err) => {
+					uni.hideLoading()
+					uni.showModal({
+						content: `查询失败，错误信息为：${err.message}`,
+						showCancel: false
+					})
+					console.error(err)
+				}).finally(() => {
+					this.loading = false
+				})
+				return Promise.resolve()
+			}
+		}
 	}
 </script>
 <style>

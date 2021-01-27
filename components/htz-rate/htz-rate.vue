@@ -13,7 +13,7 @@
 		name: 'htz-rate',
 		props: {
 			value: { //受控分值
-				type: Number,
+				type:[Number, String],
 				default: 0,
 			},
 			count: { //数量

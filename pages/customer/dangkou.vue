@@ -7,7 +7,7 @@
 				 v-for="(item,index) in dangkouList" :key="index">
 					<view style="position:relative;width: 100upx;height: 120upx;">
 						<text class="grace-list-icon grace-icons icon-img grace-gray uni-media-list-logo img-abs" style="font-size: 60upx;"></text>
-						<image class="uni-media-list-logo img-abs" mode="aspectFill" :src="'https://www.dute.org/imgplaceholder/160x200?forecolor=3688FF&bgcolor=F8F8F8&text='+ item.name.slice(0,2)"></image>
+						<image class="uni-media-list-logo img-abs" mode="aspectFill" :src="getAvatar(item.name.slice(0,2))"></image>
 					</view>
 					<view class="grace-list-body grace-border-b">
 						<view class="grace-list-title">
@@ -54,6 +54,9 @@
 			}
 			this.loading = true
 			this.getDangkouList()
+			
+			
+			
 		},
 		onPullDownRefresh: function() {
 			this.loading = true

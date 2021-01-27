@@ -7,7 +7,7 @@
 				 v-for="(item,index) in shitang" :key="index">
 					<view style="position:relative;width: 100upx;height: 120upx;">
 						<text class="grace-list-icon grace-icons icon-img grace-gray uni-media-list-logo img-abs" style="font-size: 60upx;"></text>
-						<image class="uni-media-list-logo img-abs" mode="aspectFill" :src="'https://www.dute.org/imgplaceholder/160x200?forecolor=3688FF&bgcolor=F8F8F8&text='+ item.name.slice(-3,-1)"></image>
+						<image class="uni-media-list-logo img-abs" mode="aspectFill" :src="getShitangAvatar(item.name)"></image>
 					</view>
 					<view class="grace-list-body grace-border-b">
 						<view class="grace-list-title">

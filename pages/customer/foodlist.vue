@@ -1,42 +1,3 @@
-<style lang="scss" scoped>
-	.dangkou-card {
-		margin: 20upx 40upx;
-		padding: 20upx 20upx;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		border-radius: 10upx;
-		box-shadow: 0px 4px 10px 5px #e6e6e6 ;
-		.dangkou-icon{
-			width: 140upx;
-			height: 140upx;
-			border-radius: 10upx;
-			margin: 10upx 20upx;
-		}
-		.dangkou-detail {
-			flex: 1;
-			.name{
-				font-size: 20px;
-				margin-bottom: 10upx;
-			}
-			.place,.time{
-				font-size: 12px;
-				line-height: 16px;
-				color: #808080;
-			}
-		}
-		.button{
-			display: flex;
-			flex-direction: column;
-			justify-content: flex-end;
-			color: #61b756;
-			&:before {
-			  content: ".";
-			  visibility: hidden;
-			}
-		}
-	}
-</style>
 <template>
 	<gracePage :customHeader="false">
 		<!-- 页面主体 -->
@@ -52,47 +13,52 @@
 					<text class="grace-grids-icon grace-icons grace-h3 grace-bold" :class="'icon-address'"></text>
 				</view>
 			</view>
-			<view class="grace-margin-top">
-				<view class="grace-title grace-margin-top">档口评分</view>
-				菜品综合评分：<graceSingleSlider ref="graceSingleSlider1" :barText="'好评：'+ rate" :canSlide='false'></graceSingleSlider>
-				档口卫生评分：<graceSingleSlider ref="graceSingleSlider2" :barText="'好评：'+ rate2" :canSlide='false'></graceSingleSlider>
-			</view>
-			<view class="grace-title grace-margin-top">销售统计</view>
-			<navigator url="/pages/analysis/index">
-				<view class="grace-list-items">
-					<view class="grace-list-body grace-border-b">
-						<view class="grace-list-title">
-							<text class="grace-list-title-text">月销售：1998份</text>
-							<text class="grace-list-title-desc">查看统计详情</text>
-						</view>
-					</view>
-					<text class="grace-list-arrow-right grace-icons icon-arrow-right"></text>
+			<view class="card">
+				<view class="grace-margin-top">
+					<view class="grace-title grace-gray grace-margin-top">档口评分</view>
+					<view class="rate-box grace-list-items">菜品综合评分：<htz-rate v-model="rate" :readonly="true" /></view>
+					<view class="rate-box grace-list-items">档口卫生评分：<htz-rate v-model="rate2" :readonly="true" /></view>
 				</view>
-			</navigator>
-			<view class="grace-title grace-margin-top">现有菜品</view>
-			<view class="grace-list">
-				<navigator class="grace-list-items" v-for="item in foodlist" :url="'/pages/customer/food?name='+item.name+'&dangkou='+ dangkou +'&last='+item.last+'&src='+item.src">
-					<view class="grace-list-image grace-relative">
-						<image class="grace-list-image" :src="'../../static/caipin/'+ item.src +'.jpg'" mode="aspectFill"></image>
-						<view class="grace-badge-point"></view>
-					</view>
-					<view class="grace-list-body grace-border-b">
-						<view class="grace-list-title">
-							<text class="grace-list-title-text">{{item.name}}</text>
-							<text class="grace-list-title-desc">余：{{item.last}}</text>
+				<navigator url="/pages/analysis/index">
+					<view class="grace-list-items">
+						<view class="grace-list-body">
+							<view class="grace-list-title">
+								<text class="grace-list-title-text">月销售：1998份</text>
+								<text class="grace-list-title-desc">查看统计详情</text>
+							</view>
 						</view>
-						<view class="grace-list-body-desc">{{dangkou}}</view>
+						<text class="grace-list-arrow-right grace-icons icon-arrow-right"></text>
 					</view>
-					<text class="grace-list-arrow-right grace-icons icon-arrow-right"></text>
 				</navigator>
 			</view>
+			<div class="hm-goods-card">
+				<div class="box">
+					<div class="titleClass">
+						<text class="title">热门菜品</text>
+						<text class="grace-list-arrow-right grace-icons icon-arrow-right"></text>
+					</div>
+
+					<navigator class="goods" v-for="item in foodlist" :url="'/pages/customer/food?name='+item.name+'&dangkou='+ dangkou +'&last='+item.last+'&src='+item.src">
+						<div class="wrap">
+							<image class="pic" :src="'../../static/caipin/'+ item.src +'.jpg'" />
+						</div>
+						<div class="block">
+							<text class="tradeName">{{ item.name }}</text>
+							<text class="commodity">售：{{ item.last }}</text>
+							<text class="commodity">余：{{ item.last }}</text>
+						</div>
+						<button type="primary" class="grace-button grace-gtbg-green">预约</button>						
+					</navigator>
+					<div class="row" />
+
+				</div>
+			</div>
 		</view>
 	</gracePage>
 </template>
 <script>
 	import gracePage from "../../graceUI/components/gracePage.vue";
 	import graceFlex from "../../graceUI/components/graceFlex.vue";
-	import graceSingleSlider from "../../graceUI/components/graceSingleSlider.vue";
 	export default {
 		data() {
 			return {
@@ -144,8 +110,8 @@
 						last: 6
 					},
 				],
-				rate: '100',
-				rate2: '100',
+				rate: 5,
+				rate2: 2.5,
 			}
 		},
 		onLoad: function(option) { //option为object类型，会序列化上个页面传递的参数
@@ -158,18 +124,65 @@
 					title: this.dangkou
 				});
 			}
-			setTimeout(() => {
-				this.$refs.graceSingleSlider1.setProgress(this.rate);
-				this.$refs.graceSingleSlider2.setProgress(this.rate2);
-			});
 		},
 		methods: {},
 		components: {
-			graceSingleSlider,
 			gracePage,
 			graceFlex
 		}
 	}
 </script>
-<style>
+
+<style lang="scss" scoped>
+	.card {
+		box-shadow: 0px 10px 30px rgba(209, 213, 223, 0.8);
+		border-radius: 30upx;
+		padding: 20upx 20upx;
+	}
+
+	.dangkou-card {
+		margin-top: 60upx;
+		margin-bottom: 30upx;
+		padding: 20upx 20upx;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		border-radius: 30upx;
+		box-shadow: 0px 10px 30px rgba(209, 213, 223, 0.8);
+
+		.dangkou-icon {
+			width: 140upx;
+			height: 140upx;
+			border-radius: 10upx;
+			margin: 10upx 20upx;
+		}
+
+		.dangkou-detail {
+			flex: 1;
+
+			.name {
+				font-size: 20px;
+				margin-bottom: 10upx;
+			}
+
+			.place,
+			.time {
+				font-size: 12px;
+				line-height: 16px;
+				color: #808080;
+			}
+		}
+
+		.button {
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+			color: #61b756;
+
+			&:before {
+				content: ".";
+				visibility: hidden;
+			}
+		}
+	}
 </style>

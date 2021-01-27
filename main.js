@@ -3,8 +3,10 @@ import App from './App'
 import {baseUrl} from './config/index.js'
 import {getAvatar, getShitangAvatar} from './utils/index.js'
 import Skeleton from './components/skeleton/index.vue'
+import htzRate from '@/components/htz-rate/htz-rate.vue'
 
 Vue.component('Skeleton',Skeleton);
+Vue.component('htzRate',htzRate);
 
 Vue.config.productionTip = false
 

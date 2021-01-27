@@ -17,7 +17,12 @@
 						<text class="grace-card-text">蛋白质：<text class="grace-green">10g </text></text>
 						<text class="grace-card-text">水分：<text class="grace-blue">50ml </text></text>
 					</view>
-					<text class="grace-card-text">档口：<text class="grace-blue">{{dangkou}}</text></text>
+					<view class="grace-flex grace-columns grace-flex-vcenter">
+						<text class="grace-card-text">档口：<text class="grace-blue">{{dangkou}}</text></text>
+						<view class="grace-flex grace-flex1 grace-flex-vcenter">
+							<button type="primary" class=" grace-button grace-gtbg-green">预约</button>
+						</view>
+					</view>
 				</view>
 			</view>
 			<foodtable />

@@ -1,4 +1,4 @@
-const color = ['#3688FF', '#feca57', '#ff6b6b', '#a55eea', '#cf6a87', '#26de81']
+const color = ['#3688FF', '#feca57', '#ff6b6b', '#a55eea', '#cf6a87', '#61b756']
 
 function getHash(str) {
 	let hash = 0;
@@ -17,7 +17,7 @@ function getHash(str) {
 
 function getAvatar(name) {
 	let api = "https://www.dute.org/imgplaceholder"
-	let avatarUrl = api + '/160x200?bgcolor=F8F8F8' + '&forecolor=' + color[getHash(name)].slice(1) + '&text=' + name
+	let avatarUrl = api + '/200x260?bgcolor=F8F8F8' + '&forecolor=' + color[getHash(name)].slice(1) + '&text=' + name
 	// console.log('avatarUrl', avatarUrl)
 	return avatarUrl
 }
@@ -25,7 +25,7 @@ function getAvatar(name) {
 function getShitangAvatar(name) {
 	name = name.slice(-3, -1)
 	let api = "https://www.dute.org/imgplaceholder"
-	let avatarUrl = api + '/160x200?bgcolor=F8F8F8' + '&forecolor=' + color[getHash(name.slice(0, 1))].slice(1) +
+	let avatarUrl = api + '/200x260?bgcolor=F8F8F8' + '&forecolor=' + color[getHash(name.slice(0, 1))].slice(1) +
 		'&text=' + name
 	// console.log('avatarUrl', avatarUrl)
 	return avatarUrl

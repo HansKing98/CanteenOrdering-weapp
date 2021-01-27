@@ -3,8 +3,9 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "智点点"
-
+				"navigationBarTitleText": "智点点",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#3688FF"
 			}
 		}, {
 			"path": "pages/login/login",
@@ -59,7 +60,12 @@
 		}, {
 			"path": "pages/customer/foodlist",
 			"style": {
-				"navigationBarTitleText": "菜品"
+				"navigationBarTitleText": "菜品",
+				"app-plus": {
+					"titleNView": {
+						"type": "transparent"
+					}
+				}
 			}
 		}, {
 			"path": "pages/customer/food",
@@ -100,9 +106,10 @@
 		}
 	],
 	"globalStyle": {
-		"navigationBarTextStyle": "white",
+		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "智点点",
-		"navigationBarBackgroundColor": "#3688FF",
+		// "navigationBarBackgroundColor": "#3688FF",
+		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	},
 	// "topWindow": {

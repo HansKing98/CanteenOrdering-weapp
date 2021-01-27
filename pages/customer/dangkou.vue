@@ -2,8 +2,6 @@
 	<gracePage :customHeader="false">
 		<!-- 页面主体 -->
 		<view class="grace-body" slot="gBody">
-			<skeleton :loading="loading" :avatarSize="skeleton1.avatarSize" :row="skeleton1.row" :showTitle="skeleton1.showTitle"
-			 :animate="skeleton1.animate" v-for="(i,index) in 6" :key="index"></skeleton>
 			<view class="grace-list">
 				<navigator class="grace-list-items" :url="'/pages/customer/foodlist?name='+item.name+'&rate='+item.rate+'&rate2='+item.rate2"
 				 v-for="(item,index) in dangkouList" :key="index">
@@ -23,6 +21,8 @@
 					<text class="grace-list-arrow-right grace-icons icon-arrow-right"></text>
 				</navigator>
 			</view>
+			<skeleton :loading="loading" :avatarSize="skeleton1.avatarSize" :row="skeleton1.row" :showTitle="skeleton1.showTitle"
+			 :animate="skeleton1.animate" v-for="(i,index) in 6" :key="index"></skeleton>
 		</view>
 	</gracePage>
 </template>
@@ -53,23 +53,34 @@
 				});
 			}
 			this.loading = true
-			uniCloud.callFunction({
-				name: 'getDangkouList'
-			}).then((res) => {
-				// console.log('res',res.result.data)
-				this.dangkouList = res.result.data
-			}).catch((err) => {
-				uni.hideLoading()
-				uni.showModal({
-					content: `查询失败，错误信息为：${err.message}`,
-					showCancel: false
-				})
-				console.error(err)
-			}).finally(() => {
-				this.loading = false
+			this.getDangkouList()
+		},
+		onPullDownRefresh: function() {
+			this.loading = true
+			this.getDangkouList().then(res => {
+				uni.stopPullDownRefresh()
 			})
 		},
-		methods: {}
+		methods: {
+			getDangkouList() {
+				uniCloud.callFunction({
+					name: 'getDangkouList'
+				}).then((res) => {
+					// console.log('res',res.result.data)
+					this.dangkouList = res.result.data
+				}).catch((err) => {
+					uni.hideLoading()
+					uni.showModal({
+						content: `查询失败，错误信息为：${err.message}`,
+						showCancel: false
+					})
+					console.error(err)
+				}).finally(() => {
+					this.loading = false
+				})
+				return Promise.resolve()
+			}
+		}
 	}
 </script>
 <style>

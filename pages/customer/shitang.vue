@@ -2,8 +2,6 @@
 	<gracePage :customHeader="false">
 		<!-- 页面主体 -->
 		<view class="grace-body" slot="gBody">
-			<skeleton :loading="loading" :avatarSize="skeleton1.avatarSize" :row="skeleton1.row" :showTitle="skeleton1.showTitle"
-			 :animate="skeleton1.animate" v-for="(i,index) in 6" :key="index"></skeleton>
 			<view class="grace-list">
 				<navigator class="grace-list-items" :url="'/pages/customer/dangkou?name='+item.name+'&rate='+item.rate+'&rate2='+item.rate2"
 				 v-for="(item,index) in shitang" :key="index">
@@ -23,6 +21,8 @@
 					<!-- <text class="grace-list-arrow-right grace-icons icon-arrow-right"></text> -->
 				</navigator>
 			</view>
+			<skeleton :loading="loading" :avatarSize="skeleton1.avatarSize" :row="skeleton1.row" :showTitle="skeleton1.showTitle"
+			 :animate="skeleton1.animate" v-for="(i,index) in 6" :key="index"></skeleton>
 		</view>
 	</gracePage>
 </template>
@@ -51,6 +51,7 @@
 			this.getShitangList()
 		},
 		onPullDownRefresh: function() {
+			this.loading = true
 			this.getShitangList().then(res => {
 				uni.stopPullDownRefresh()
 			})

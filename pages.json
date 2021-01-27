@@ -45,9 +45,16 @@
 				"navigationBarTitleText": "膳食均衡达标率"
 			}
 		}, {
+			"path": "pages/customer/shitang",
+			"style": {
+				"navigationBarTitleText": "食堂",
+				"enablePullDownRefresh": true
+			}
+		}, {
 			"path": "pages/customer/dangkou",
 			"style": {
-				"navigationBarTitleText": "档口"
+				"navigationBarTitleText": "档口",
+				"enablePullDownRefresh": true
 			}
 		}, {
 			"path": "pages/customer/foodlist",
@@ -91,17 +98,7 @@
 				"navigationBarTitleText": "screen2"
 			}
 		}
-
-	    ,{
-            "path" : "pages/customer/shitang",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "食堂",
-                "enablePullDownRefresh": true
-            }
-            
-        }
-    ],
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "智点点",

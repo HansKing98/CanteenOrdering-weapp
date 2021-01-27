@@ -14,13 +14,13 @@
 					<view class="grace-list-body grace-border-b">
 						<view class="grace-list-title">
 							<text class="grace-list-title-text">{{item.name}}</text>
-							<view class="">
+							<!-- <view class="">
 								<text class="grace-badge demo grace-bg-blue">{{item.rate}}</text>
 								<text class="grace-badge demo grace-bg-green">{{item.rate2}}</text>
-							</view>
+							</view> -->
 						</view>
 					</view>
-					<text class="grace-list-arrow-right grace-icons icon-arrow-right"></text>
+					<!-- <text class="grace-list-arrow-right grace-icons icon-arrow-right"></text> -->
 				</navigator>
 			</view>
 		</view>

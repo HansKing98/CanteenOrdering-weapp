@@ -16,21 +16,31 @@
 	/* #ifndef APP-PLUS-NVUE */
 	@import "./graceUI/graceUI.css";
 	@import "./graceUI/graceIcons.css";
+
 	/* #endif */
 	* {
-	  font-family: Helvetica, Arial, "microsoft yahei", "PingFang";
+		font-family: Helvetica, Arial, "microsoft yahei", "PingFang";
 	}
+
 	/* 宽屏适配 */
-	uni-page-wrapper{
-		overflow: hidden auto;
-		overflow-y: scroll;
-		overflow-x: hidden;
+	@media (min-width: 768px) {
+		uni-page-wrapper {
+			display: block;
+			height: 100%;
+			position: relative;
+			/* overflow: hidden auto; */
+			overflow-y: scroll;
+			/* overflow-x: auto; */
+		}
+
+		/* 可滚动但不显示滚动条 */
+		::-webkit-scrollbar {
+			width: 0 !important;
+		}
+
+		::-webkit-scrollbar {
+			width: 0 !important;
+			height: 0;
+		}
 	}
-	/* 可滚动但不显示滚动条 */
-	::-webkit-scrollbar {  
-	width: 0 !important;  
-	}  
-	::-webkit-scrollbar {  
-	width: 0 !important;height: 0;  
-	} 
 </style>

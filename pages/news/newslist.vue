@@ -5,7 +5,8 @@
 			<image class="banner-img" :src="banner.pic"></image>
 			<view class="banner-title">{{banner.title}}</view>
 		</view>
-		<skeleton :loading="listLoading" avatarSize="40px" :row="2" :showTitle="true" :animate="true" v-for="(i,index) in 10" :key="index"></skeleton>
+		<skeleton :loading="listLoading" avatarSize="80px" avatarShape="square" :row="2" :showTitle="true" :animate="true"
+		 :showAvatar="index%2==0?true:false" v-for="(i,index) in 10" :key="index"></skeleton>
 		<view class="uni-list">
 			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in listData" :key="key" @click="goDetail(value)">
 				<view class="uni-media-list">
@@ -38,38 +39,38 @@
 			}
 		},
 		onLoad() {
-			this.getBanner();
+			// this.getBanner();
 			this.getList();
 		},
 		onPullDownRefresh() {
 			this.reload = true;
 			this.last_id = "";
-			this.getBanner();
+			// this.getBanner();
 			this.getList();
 		},
 		onReachBottom() {
 			this.getList();
 		},
 		methods: {
-			getBanner() {
-				uniCloud.callFunction({
-					name: 'getNewsBanner'
-				}).then((res) => {
-					uni.stopPullDownRefresh();
-					if (res.success) {
-						this.banner = res.result.list[0];
-					}
-				}).catch((err) => {
-					uni.hideLoading()
-					uni.showModal({
-						content: `查询失败，错误信息为：${err.message}`,
-						showCancel: false
-					})
-					console.error(err)
-				}).finally(() => {
-					this.bannerLoading = false
-				})
-			},
+			// getBanner() {
+			// 	uniCloud.callFunction({
+			// 		name: 'getNewsBanner'
+			// 	}).then((res) => {
+			// 		uni.stopPullDownRefresh();
+			// 		if (res.success) {
+			// 			this.banner = res.result.list[0];
+			// 		}
+			// 	}).catch((err) => {
+			// 		uni.hideLoading()
+			// 		uni.showModal({
+			// 			content: `查询失败，错误信息为：${err.message}`,
+			// 			showCancel: false
+			// 		})
+			// 		console.error(err)
+			// 	}).finally(() => {
+			// 		this.bannerLoading = false
+			// 	})
+			// },
 			getList() {
 				var data = {
 					column: "id,post_id,title,author_name,cover,published_at" //需要的字段名
@@ -83,7 +84,9 @@
 					name: 'getNewsLists'
 				}).then((res) => {
 					if (res.success) {
-						let list = res.result.list;
+						this.banner = res.result.list[0]
+						this.bannerLoading = false
+						let list = res.result.list.slice(1);
 						// this.listData = list
 						// console.log('data',this.listData)
 						this.listData = this.reload ? list : this.listData.concat(list);

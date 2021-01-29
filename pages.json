@@ -80,7 +80,8 @@
 		}, {
 			"path": "pages/news/newslist",
 			"style": {
-				"navigationBarTitleText": "食品安全资讯"
+				"navigationBarTitleText": "食品安全资讯",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -104,13 +105,22 @@
 				"navigationBarTitleText": "screen2"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/customer/pingjia",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "评价",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "智点点",
 		// "navigationBarBackgroundColor": "#3688FF",
 		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#f54a34"
+		"backgroundColor": "#F8F8F8"
 	},
 	// "topWindow": {
 	// 	"path": "responsive/left-window",

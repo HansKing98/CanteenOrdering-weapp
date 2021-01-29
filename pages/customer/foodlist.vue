@@ -47,7 +47,7 @@
 							<text class="commodity">售：{{ item.last }}</text>
 							<text class="commodity">余：{{ item.last }}</text>
 						</div>
-						<button type="primary" class="grace-button grace-gtbg-green">预约</button>						
+						<button type="primary" size="mini">预约</button>						
 					</navigator>
 					<div class="row" />
 

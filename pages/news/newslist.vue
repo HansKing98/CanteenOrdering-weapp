@@ -8,7 +8,8 @@
 		<skeleton :loading="listLoading" avatarSize="80px" avatarShape="square" :row="2" :showTitle="true" :animate="true"
 		 :showAvatar="index%2==0?true:false" v-for="(i,index) in 10" :key="index"></skeleton>
 		<view class="uni-list">
-			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in listData" :key="key" @click="goDetail(value)">
+			<view class="uni-list-cell" hover-class="uni-list-cell-hover" v-for="(value,key) in listData.slice(1)" :key="key"
+			 @click="goDetail(value)">
 				<view class="uni-media-list">
 					<image class="uni-media-list-logo" :src="value.pic" v-if="value.pic"></image>
 					<view class="uni-media-list-body">
@@ -21,78 +22,84 @@
 				</view>
 			</view>
 		</view>
+		<graceLoading :loadingType="loadingType"></graceLoading>
 	</view>
 </template>
 
 <script>
 	var dateUtils = require('./common/util.js').dateUtils;
-
+	import graceLoading from '../../graceUI/components/graceLoading.vue';
 	export default {
+		components: {
+			graceLoading
+		},
 		data() {
 			return {
 				banner: {},
 				listData: [],
-				last_id: "",
+				haveDate: false,
 				reload: false,
 				bannerLoading: true,
-				listLoading: true
+				listLoading: true,
+				pageData: {
+					page: 0,
+					pageSize: 11
+				},
+				loadingType: 3
 			}
 		},
 		onLoad() {
-			// this.getBanner();
-			this.getList();
+			this.getNews()
 		},
 		onPullDownRefresh() {
 			this.reload = true;
-			this.last_id = "";
-			// this.getBanner();
-			this.getList();
+			this.haveDate = false;
+			this.getNews();
 		},
 		onReachBottom() {
-			this.getList();
+			//避免多次触发
+			this.loadingType = 0
+			if (this.loadingType == 1 || this.loadingType == 2) {
+				return;
+			}
+			this.getUniCloudNews();
 		},
 		methods: {
-			// getBanner() {
-			// 	uniCloud.callFunction({
-			// 		name: 'getNewsBanner'
-			// 	}).then((res) => {
-			// 		uni.stopPullDownRefresh();
-			// 		if (res.success) {
-			// 			this.banner = res.result.list[0];
-			// 		}
-			// 	}).catch((err) => {
-			// 		uni.hideLoading()
-			// 		uni.showModal({
-			// 			content: `查询失败，错误信息为：${err.message}`,
-			// 			showCancel: false
-			// 		})
-			// 		console.error(err)
-			// 	}).finally(() => {
-			// 		this.bannerLoading = false
-			// 	})
-			// },
-			getList() {
-				var data = {
-					column: "id,post_id,title,author_name,cover,published_at" //需要的字段名
-				};
-				if (this.last_id) { //说明已有数据，目前处于上拉加载
-					data.minId = this.last_id;
-					data.time = new Date().getTime() + "";
-					data.pageSize = 10;
+			getNews() {
+				this.getUniCloudNews();
+				this.getList();
+			},
+			getUniCloudNews() {
+				// 获取云数据库数据
+				this.loadingType = 1;
+				if (this.haveDate) { //说明已有数据，目前处于上拉加载
+					// console.log('1', this.haveDate)
+					this.pageData.page = this.pageData.page + 1;
+
+				} else {
+					// console.log('2', this.haveDate)
+					this.pageData.page = 0
 				}
+				// console.log('data', data.pageSize)
 				uniCloud.callFunction({
-					name: 'getNewsLists'
+					name: 'getNews',
+					data: this.pageData
 				}).then((res) => {
-					if (res.success) {
-						this.banner = res.result.list[0]
-						this.bannerLoading = false
-						let list = res.result.list.slice(1);
-						// this.listData = list
-						// console.log('data',this.listData)
-						this.listData = this.reload ? list : this.listData.concat(list);
-						this.last_id = list[list.length - 1].id;
-						this.reload = false;
+
+					this.bannerLoading = false
+					// 是否到底
+					if (res.result.data.length == 0) {
+						// 已经加载了全部数据
+						this.loadingType = 2
 					}
+					let list = res.result.data
+
+					this.listData = this.reload ? list : this.listData.concat(list);
+					this.banner = this.listData[0]
+					// console.log('length', this.listData.length)
+					this.haveDate = true;
+					this.reload = false;
+
 				}).catch((err) => {
 					uni.hideLoading()
 					uni.showModal({
@@ -102,12 +109,16 @@
 					console.error(err)
 				}).finally(() => {
 					this.listLoading = false
+					uni.stopPullDownRefresh()
+				})
+			},
+			getList() {
+				// 获取网络 Api 数据
+				uniCloud.callFunction({
+					name: 'getNewsLists'
 				})
 			},
 			goDetail: function(e) {
-				// 				if (!/前|刚刚/.test(e.published_at)) {
-				// 					e.published_at = dateUtils.format(e.published_at);
-				// 				}
 				let detail = {
 					author_name: e.src,
 					cover: e.pic,
@@ -122,20 +133,6 @@
 					url: "/pages/news/newsdetail?detailDate=" + encodeURIComponent(JSON.stringify(
 						detail))
 				})
-			},
-			setTime: function(items) {
-				var newItems = [];
-				items.forEach((e) => {
-					newItems.push({
-						author_name: e.author_name,
-						cover: e.cover,
-						id: e.id,
-						post_id: e.post_id,
-						published_at: dateUtils.format(e.time),
-						title: e.title
-					});
-				});
-				return newItems;
 			}
 		},
 	}

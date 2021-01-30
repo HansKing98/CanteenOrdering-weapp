@@ -12,7 +12,9 @@
 	}
 </script>
 
-<style>
+<style lang="scss">
+	@import "uview-ui/index.scss";
+
 	/* #ifndef APP-PLUS-NVUE */
 	@import "./graceUI/graceUI.css";
 	@import "./graceUI/graceIcons.css";

@@ -1,0 +1,31 @@
+.ripple {
+	position: relative;
+	overflow: hidden;
+	cursor: pointer;
+}
+
+.ripple:after {
+	content: "";
+	background: rgba(255, 255, 255, 0.3);
+	/* display: block; */
+	position: absolute;
+	border-radius: 50%;
+	top: -100%;
+	left: -100%;
+	padding-top: 0;
+	padding-left: 0;
+	margin-top: 0;
+	margin-left: 0;
+	opacity: 0;
+	transition: 1s;
+}
+
+.ripple:active:after {
+	padding-top: 250%;
+	padding-left: 250%;
+	margin-top: -120%;
+	margin-left: -20%;
+	opacity: 1;
+	/* transform: translate(-50%,-50%); */
+	transition: 1s;
+}

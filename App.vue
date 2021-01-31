@@ -19,15 +19,19 @@
 	@import "./graceUI/graceUI.css";
 	@import "./graceUI/graceIcons.css";
 	@import './components/hm-goods-card/index.response.css';
+	@import './components/ripple/ripple.css'; // 按钮点击波浪纹效果
+
 	/* #endif */
 	* {
 		font-family: Helvetica, Arial, "microsoft yahei", "PingFang";
 	}
-	.rate-box{
+
+	.rate-box {
 		display: flex;
 		align-items: center;
 		line-height: 70upx;
 	}
+
 	/* 宽屏适配 */
 	@media (min-width: 768px) {
 		uni-page-wrapper {

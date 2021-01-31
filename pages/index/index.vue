@@ -5,7 +5,7 @@
 		<gracePage :customHeader="false">
 			<view slot="gBody" class="grace-body">
 				<view class="grace-icon-classes grace-wrap grace-space-between">
-					<navigator :url="item.path" class="grace-ic-item" :style="'background-image:linear-gradient(135deg,'+item.bgColor[0]+','+item.bgColor[1]+')'"
+					<view @click="navigeteTo(item.path)" class="grace-ic-item ripple" :style="'background-image:linear-gradient(135deg,'+item.bgColor[0]+','+item.bgColor[1]+')'"
 					 v-for="(item, index) in classes" :key="index">
 						<image :src="item.icon" class="grace-ic-image" mode="widthFix"></image>
 						<view class="grace-ic-content">
@@ -13,8 +13,9 @@
 							<text class="grace-text-small grace-white">{{item.smallTxt}}</text>
 						</view>
 						<image :src="item.icon" class="grace-ic-bg-image" mode="widthFix"></image>
-					</navigator>
+					</view>
 				</view>
+				<foodlist />
 			</view>
 		</gracePage>
 	</view>
@@ -22,12 +23,13 @@
 <script>
 	import gracePage from "../../graceUI/components/gracePage.vue";
 	import graceSwiper from "../../graceUI/components/graceSwiper.vue";
-
+	import foodlist from "../customer/foodlist2.vue";
 
 	export default {
 		components: {
 			gracePage,
-			graceSwiper
+			graceSwiper,
+			foodlist
 		},
 		data() {
 			return {

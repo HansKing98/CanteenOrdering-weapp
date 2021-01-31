@@ -2,8 +2,8 @@
     "name" : "智点点",
     "appid" : "__UNI__8620C16",
     "description" : "高校食堂预约点餐系统",
-    "versionName" : "1.1.0",
-    "versionCode" : 110,
+    "versionName" : "1.1.1",
+    "versionCode" : 111,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {

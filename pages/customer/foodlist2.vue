@@ -1,103 +1,163 @@
 <template>
-	<gracePage :customHeader="false">
-		<!-- 页面主体 -->
-		<view class="grace-body" slot="gBody">
-			<view class="grace-title grace-margin-top">
-				<view class="grace-title-border"></view>
-				<text class="grace-title-text grace-blue">今日推荐菜品</text>
-			</view>
-			<view class="grace-list grace-flex grace-rows grace-wrap ">
-				<navigator class="grace-list-items list" v-for="item in foodlist" :url="'/pages/customer/food?name='+item.name+'&dangkou='+ dangkou +'&last='+item.last+'&src='+item.src">
-					<view class="grace-list-image">
-						<image class="grace-list-image" :src="'../../static/caipin/'+ item.src +'.jpg'" mode="aspectFill"></image>
-					</view>
-					<view class="grace-list-body grace-border-b">
-						<view class="grace-list-title">
-							<text class="grace-list-title-text">{{item.name}}</text>
-						</view>
-					</view>
-				</navigator>
-			</view>
-		</view>
-	</gracePage>
+
+	<div class="hm-goods-card">
+		<div class="box">
+			<div class="titleClass">
+				<text class="title">热门菜品</text>
+				<text class="grace-list-arrow-right grace-icons icon-arrow-right"></text>
+			</div>
+
+			<div class="goods ripple" v-for="item in foodlist" @click="navigeteTo('/pages/customer/food?name='+item.name+'&dangkou='+ dangkou +'&last='+item.last+'&src='+item.src)">
+				<div class="wrap">
+					<image class="pic" :src="'../../static/caipin/'+ item.src +'.jpg'" />
+				</div>
+				<div class="block">
+					<text class="tradeName">{{ item.name }}</text>
+					<text class="commodity">售：{{ item.last }}</text>
+					<text class="commodity">余：{{ item.last }}</text>
+				</div>
+				<u-button type="primary" size="mini" :ripple="true" @click="showSuccess">预约</u-button>
+			</div>
+			<u-toast ref="uToast" />
+			<div class="row" />
+		</div>
+	</div>
 </template>
 <script>
 	import gracePage from "../../graceUI/components/gracePage.vue";
 	import graceFlex from "../../graceUI/components/graceFlex.vue";
-	import graceSingleSlider from "../../graceUI/components/graceSingleSlider.vue";
 	export default {
 		data() {
 			return {
-				dangkou:'川味小炒',
-				foodlist:[
-					{
-						name:'糖醋里脊',
-						src:'u2',
-						last:9
+				dangkou: '档口名称',
+				foodlist: [{
+						name: '红烧肉',
+						src: 'u1',
+						last: 18
 					},
 					{
-						name:'鱼香肉丝',
-						src:'u3',
-						last:7
+						name: '糖醋里脊',
+						src: 'u2',
+						last: 9
 					},
 					{
-						name:'醋溜土豆丝',
-						src:'u4',
-						last:22
+						name: '鱼香肉丝',
+						src: 'u3',
+						last: 7
 					},
 					{
-						name:'鱼香茄子',
-						src:'u5',
-						last:34
+						name: '醋溜土豆丝',
+						src: 'u4',
+						last: 22
 					},
 					{
-						name:'京酱肉丝',
-						src:'u6',
-						last:15
-					},
-					
-					{
-						name:'红烧茄夹',
-						src:'u7',
-						last:22
+						name: '鱼香茄子',
+						src: 'u5',
+						last: 34
 					},
 					{
-						name:'北京烤鸭',
-						src:'u8',
-						last:7
+						name: '京酱肉丝',
+						src: 'u6',
+						last: 15
+					},
+
+					{
+						name: '红烧茄夹',
+						src: 'u7',
+						last: 22
 					},
 					{
-						name:'八珍豆腐',
-						src:'u9',
-						last:6
+						name: '北京烤鸭',
+						src: 'u8',
+						last: 7
+					},
+					{
+						name: '八珍豆腐',
+						src: 'u9',
+						last: 6
 					},
 				],
-				rate : '98',
-				rate2 : '98',
+				rate: 5,
+				rate2: 2.5,
 			}
 		},
-		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
-			if(JSON.stringify(option) !== '{}'){
-				this.dangkou= option.name
-				this.rate= option.rate
-				this.rate2= option.rate2
+		onLoad: function(option) { //option为object类型，会序列化上个页面传递的参数
+			if (JSON.stringify(option) !== '{}') {
+				this.dangkou = option.name
+				this.rate = option.rate
+				this.rate2 = option.rate2
+				this.dangkou = option.name
+				uni.setNavigationBarTitle({
+					title: this.dangkou
+				});
 			}
-			setTimeout(() => {
-				this.$refs.graceSingleSlider1.setProgress(this.rate);
-				this.$refs.graceSingleSlider2.setProgress(this.rate2);
-			});
 		},
-		methods: {},
+		methods: {
+			showSuccess() {
+				this.$refs.uToast.show({
+					title: '预订成功',
+					type: 'success',
+					position: "top"
+				})
+			}
+		},
 		components: {
-			graceSingleSlider,
 			gracePage,
 			graceFlex
 		}
 	}
 </script>
-<style>
-	.list{
-		height: 160rpx;
-		width: 350rpx;
+
+<style lang="scss" scoped>
+	.card {
+		box-shadow: 0px 10px 30px rgba(209, 213, 223, 0.8);
+		border-radius: 30upx;
+		padding: 20upx 20upx;
+	}
+
+	.dangkou-card {
+		margin-top: 60upx;
+		margin-bottom: 30upx;
+		padding: 20upx 20upx;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		border-radius: 30upx;
+		box-shadow: 0px 10px 30px rgba(209, 213, 223, 0.8);
+
+		.dangkou-icon {
+			width: 140upx;
+			height: 140upx;
+			border-radius: 10upx;
+			margin: 10upx 20upx;
+		}
+
+		.dangkou-detail {
+			flex: 1;
+
+			.name {
+				font-size: 20px;
+				margin-bottom: 10upx;
+			}
+
+			.place,
+			.time {
+				font-size: 12px;
+				line-height: 16px;
+				color: #808080;
+			}
+		}
+
+		.button {
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+			color: #61b756;
+
+			&:before {
+				content: ".";
+				visibility: hidden;
+			}
+		}
 	}
 </style>

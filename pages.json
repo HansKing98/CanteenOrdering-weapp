@@ -8,7 +8,12 @@
 			"style": {
 				"navigationBarTitleText": "智点点",
 				"navigationBarTextStyle": "white",
-				"navigationBarBackgroundColor": "#3688FF"
+				"navigationBarBackgroundColor": "#3688FF",
+				"app-plus": {
+					"titleNView": {
+						"type": "transparent"
+					}
+				}
 			}
 		}, {
 			"path": "pages/login/login",
@@ -115,7 +120,16 @@
 			}
 
 		}
-	],
+	    ,{
+            "path" : "pages/order/order",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的预定",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "智点点",

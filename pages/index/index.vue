@@ -5,7 +5,7 @@
 		<gracePage :customHeader="false">
 			<view slot="gBody" class="grace-body">
 				<view class="grace-icon-classes grace-wrap grace-space-between">
-					<view @click="navigeteTo(item.path)" class="grace-ic-item ripple" :style="'background-image:linear-gradient(135deg,'+item.bgColor[0]+','+item.bgColor[1]+')'"
+					<view @click="navigeteTo(item.path)" class=" ripple" :class="index != 1 && index != 2 ? 'grace-ic-item': 'grace-ic-item-two'" :style="'background-image:linear-gradient(135deg,'+item.bgColor[0]+','+item.bgColor[1]+')'"
 					 v-for="(item, index) in classes" :key="index">
 						<image :src="item.icon" class="grace-ic-image" mode="widthFix"></image>
 						<view class="grace-ic-content">
@@ -51,7 +51,7 @@
 						icon: '/static/canteen.png',
 						txt: '食堂',
 						smallTxt: "Canteen",
-						bgColor: ["#fda085", "#f6d365"],
+						bgColor: ["#f78ca0", "#fe9a8b"],
 						path: "/pages/customer/shitang",
 						openType: "navigate"
 					},
@@ -59,8 +59,16 @@
 						icon: '/static/mall.png',
 						txt: '档口',
 						smallTxt: "Stall",
-						bgColor: ["#6e45e2", "#9fa5ff"],
+						bgColor: ["#fe9a8b", "#9fa5ff"],
 						path: "/pages/customer/dangkou",
+						openType: "navigate"
+					},
+					{
+						icon: '/static/order.png',
+						txt: '已预定',
+						smallTxt: "Stall",
+						bgColor: ["#6e45e2", "#9fa5ff"],
+						path: "/pages/order/order",
 						openType: "navigate"
 					},
 					{
@@ -127,7 +135,18 @@
 		flex-direction: column;
 		justify-content: center;
 	}
-
+	.grace-ic-item-two{
+		width: 340rpx;
+		height: 158rpx;
+		font-size: 0;
+		border-radius: 14px;
+		position: relative;
+		margin: 10rpx 0;
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
 	.grace-ic-image {
 		width: 60rpx;
 		height: 56rpx;

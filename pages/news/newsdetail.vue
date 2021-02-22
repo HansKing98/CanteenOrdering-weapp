@@ -72,25 +72,30 @@
 		position: relative;
 		background-color: #ccc;
 	}
-	.none-banner{
+
+	.none-banner {
 		height: 140upx;
-		background-color: #3688FF;
+		background-color: rgba(204, 204, 204, 1.0);
 	}
+
 	.banner-img {
 		width: 100%;
 	}
+
 	.banner-title {
 		max-height: 84upx;
 		overflow: hidden;
 		position: absolute;
-		left: 30upx;
-		bottom: 30upx;
-		width: 90%;
+		/* left: 30upx; */
+		bottom: 0;
+		padding-left: 30upx;
+		width: 100%;
 		font-size: 32upx;
 		font-weight: 400;
-		line-height: 42upx;
+		line-height: 100upx;
 		color: white;
 		z-index: 11;
+		background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.4) 60%);
 	}
 
 	.article-meta {

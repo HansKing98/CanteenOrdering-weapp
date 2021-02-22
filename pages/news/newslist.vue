@@ -154,14 +154,16 @@
 		max-height: 84upx;
 		overflow: hidden;
 		position: absolute;
-		left: 30upx;
-		bottom: 30upx;
-		width: 90%;
+		/* left: 30upx; */
+		bottom: 0;
+		padding-left: 30upx;
+		width: 100%;
 		font-size: 32upx;
 		font-weight: 400;
-		line-height: 42upx;
+		line-height: 100upx;
 		color: white;
 		z-index: 11;
+		background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.4) 60%);
 	}
 
 	.uni-list {

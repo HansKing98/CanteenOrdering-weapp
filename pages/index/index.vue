@@ -65,8 +65,8 @@
 					},
 					{
 						icon: '/static/order.png',
-						txt: '已预定',
-						smallTxt: "Stall",
+						txt: '我的预定',
+						smallTxt: "Order",
 						bgColor: ["#6e45e2", "#9fa5ff"],
 						path: "/pages/order/order",
 						openType: "navigate"

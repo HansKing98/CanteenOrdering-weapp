@@ -119,17 +119,22 @@
 				"enablePullDownRefresh": false
 			}
 
+		}, {
+			"path": "pages/order/order",
+			"style": {
+				"navigationBarTitleText": "我的预定",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/order/complete",
+			"style": {
+				"navigationBarTitleText": "预定成功",
+				"enablePullDownRefresh": false
+			}
+
 		}
-	    ,{
-            "path" : "pages/order/order",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "我的预定",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "智点点",

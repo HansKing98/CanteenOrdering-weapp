@@ -8,7 +8,7 @@
 					<view class="titbgv_l">订单号：{{item.ordernum}}</view>
 					<view class="titbgv_r">{{getOrderState(item.state)}}</view>
 				</view>
-				<view class="listv" v-for="(goods,gsidx) in 1" :key="gsidx">
+				<view class="listv" v-for="(goods,gsidx) in 1" :key="gsidx" @click="navigeteTo('/pages/order/complete')">
 					<image class="imgv" mode="aspectFill" :src="item.img"></image>
 					<view class="listv_r">
 						<view class="listv_r_l">
@@ -109,7 +109,7 @@
 						name: '天津科技大学',
 						addess: '新食堂二楼',
 						state: 4,
-						img: '../../static/caipin/u5.jpg',
+						img: '../../static/caipin/u3.jpg',
 						tit: '鱼香茄子',
 						attribute: '热菜',
 						num: '1',
